@@ -1,0 +1,9 @@
+{
+  "name": "toolbox-sass",
+  "version": "0.1.0",
+  "description": "Assorted Sass bits-and-pieces.",
+  "main": "dd-toolbox.scss",
+  "author": "Damien Dart",
+  "license": "MIT",
+  "private": true
+}
