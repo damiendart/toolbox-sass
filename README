@@ -1,0 +1,19 @@
+toolbox-sass
+============
+
+An assortment of Sass functions, mixins, and variables.
+
+I'm publishing this project online mainly for my own benefit; I got
+tired of having to maintain copies of the same bits-and-pieces across
+multiple projects. 
+
+I dont't recommend using this for your own projects as-is. I've done a
+bunch of customising that you'll probably need to change or undo for
+your projects. I'm also prone to making drastic changes on a whim.
+
+Having said that, feel free to have a browse and pinch stuff for your
+own projects. If you're unfortunate enough to be working on a project
+that uses this, at least everything usuable is prefixed to prevent
+issues with other frameworks and libraries.  
+
+-- Damien

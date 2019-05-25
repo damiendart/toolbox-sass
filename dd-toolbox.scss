@@ -1,15 +1,28 @@
-// Assorted Sass bits and pieces.
+// An assortment of Sass functions, mixins, and variables.
+//
+// I'm publishing this project online mainly for my own benefit; I got
+// tired of having to maintain copies of the same bits-and-pieces across
+// multiple projects.
+//
+// I don't recommend using this for your own projects as-is. I've done a
+// bunch of customising that you'll probably need to change or undo for
+// your projects. I'm also prone to making drastic changes on a whim.
+//
+// Having said that, feel free to have a browse and pinch stuff for your
+// own projects. If you're unfortunate enough to be working on a project
+// that uses this, at least everything usable is prefixed to prevent
+// issues with other frameworks and libraries.
 //
 // Copyright (C) 2019 Damien Dart, <damiendart@pobox.com>.
 // This file is distributed under the MIT licence. For more information,
 // please refer to the accompanying "LICENCE" file.
 
-$dd-rem-base: 16px;
 
-// The following media-query-related bits-and-pieces are based on
-// Foundation 5's handling of media queries. For more information, see
+// The following media-query-related variables are inspired by
+// Foundation 5. For more information, please see
 // <https://foundation.zurb.com/sites/docs/v/5.5.3/media-queries.html>.
 
+$dd-rem-base: 16px;
 $dd-one-pixel: (1px / $dd-rem-base) * 1rem;
 
 $dd-x-small-breakpoint: (320px / $dd-rem-base) * 1rem;
@@ -32,23 +45,27 @@ $dd-media-medium-down: "#{$dd-media-screen} and (max-width: #{$dd-medium-breakpo
 $dd-media-large-down: "#{$dd-media-screen} and (max-width: #{$dd-large-breakpoint})";
 $dd-media-x-large-down: "#{$dd-media-screen} and (max-width: #{$dd-x-large-breakpoint})";
 
-// This is a gross hack for targeting Internet Explorer 10 and 11. For more
-// information, see <https://stackoverflow.com/a/20541859>.
+// This is a gross hack for targeting Internet Explorer 10 and 11. For
+// more information, see <https://stackoverflow.com/a/20541859>.
 $dd-media-ie-10: "all and (-ms-high-contrast: none), (-ms-high-contrast: active)";
 
 
+// Returns a colour (currently black or white) that contrasts well
+// against the provided color. For more information, please see:
+//  - <https://webaim.org/resources/contrastchecker/> and
+//  - <https://css-tricks.com/css-variables-calc-rgb-enforcing-high-contrast-colors/>.
 @function dd-contrasting-colour($colour) {
-  // This function is based on code from
-  // <https://css-tricks.com/css-variables-calc-rgb-enforcing-high-contrast-colors/>.
   $sum: (red($colour) * 299) + (green($colour) * 587) + (blue($colour) * 144);
   @if $sum > 128000 {
     @return #000000; }
   @return #ffffff; }
 
+// Returns the square root of the provided number using Newton's Method.
+// For more information, please see:
+// - <http://www.antimath.info/css/sass-sqrt-function/>,
+// - <https://en.wikipedia.org/wiki/Newton%27s_method>, and
+// - <https://css-tricks.com/snippets/sass/strip-unit-function/>.
 @function dd-sqrt($number) {
-  // This function is based on code from
-  // <https://css-tricks.com/snippets/sass/strip-unit-function/> and
-  // <http://www.antimath.info/css/sass-sqrt-function/>.
   $x: 1;
   @if type-of($number) == "number" and not unitless($number) {
     $number: $number / ($number * 0 + 1); }
@@ -57,6 +74,7 @@ $dd-media-ie-10: "all and (-ms-high-contrast: none), (-ms-high-contrast: active)
   @return $x; }
 
 
+// Yet Another Clearfix Mixin.
 @mixin dd-clearfix {
   zoom: 1;
   &:after {
@@ -65,15 +83,16 @@ $dd-media-ie-10: "all and (-ms-high-contrast: none), (-ms-high-contrast: active)
     content: "";
     display: table; } }
 
+// Corrects inability to style clickable types in iOS and Safari. For
+// more information, see <https://github.com/necolas/normalize.css>.
 @mixin dd-clickable-reset {
-  // Correct inability to style clickable types in iOS and Safari. For
-  // more information, see <https://github.com/necolas/normalize.css>.
   -webkit-appearance: button;
   border-radius: 0; }
 
-// TODO: Clean this up and add documentation.
+// Adds stuff to create a hamburger-menu icon. The following is based on
+// <https://jonsuh.com/hamburgers/>.
 @mixin dd-hamburger($width, $layer-height, $spacing-height) {
-  /* div */.hamburger {
+  .hamburger {
     $height: $layer-height * 3 + $spacing-height * 2;
     display: inline-block;
     height: $height;
@@ -104,8 +123,11 @@ $dd-media-ie-10: "all and (-ms-high-contrast: none), (-ms-high-contrast: active)
           opacity: 0;
           transform: translate3d(0, $spacing-height + $layer-height, 0) rotate(45deg); } } } } }
 
+// Adds declarations to improve font rendering in most browsers. This
+// mixin may no longer be necessary for modern browsers (I should check
+// at some point). The following is based on
+// <https://gist.github.com/hsleonis/55712b0eafc9b25f1944>.
 @mixin dd-nice-font-rendering {
-  // Based on <https://gist.github.com/hsleonis/55712b0eafc9b25f1944>.
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased; // Autoprefixer omits this.
   -moz-osx-font-smoothing: grayscale;
