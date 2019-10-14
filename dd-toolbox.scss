@@ -109,7 +109,7 @@ $dd-media-ie-10: "all and (-ms-high-contrast: none), (-ms-high-contrast: active)
     } @else {
       font-size: 100%; }
     @media #{$dd-media-medium} {
-      font-size: percentage($base-font-size / 16px); } } }
+      font-size: percentage($font-size / 16px); } } }
 
 // Yet Another Clearfix Mixin.
 @mixin dd-clearfix {
