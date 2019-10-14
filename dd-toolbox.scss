@@ -22,14 +22,14 @@
 // Foundation 5. For more information, please see
 // <https://foundation.zurb.com/sites/docs/v/5.5.3/media-queries.html>.
 
-$dd-rem-base: 16px;
-$dd-one-pixel: (1px / $dd-rem-base) * 1rem;
+$dd-em-base: 16px;
+$dd-one-pixel: (1px / $dd-em-base) * 1em;
 
-$dd-x-small-breakpoint: (320px / $dd-rem-base) * 1rem;
-$dd-small-breakpoint: (480px / $dd-rem-base) * 1rem;
-$dd-medium-breakpoint: (768px / $dd-rem-base) * 1rem;
-$dd-large-breakpoint: (1024px / $dd-rem-base) * 1rem;
-$dd-x-large-breakpoint: (1440px / $dd-rem-base) * 1rem;
+$dd-x-small-breakpoint: (320px / $dd-em-base) * 1em;
+$dd-small-breakpoint: (480px / $dd-em-base) * 1em;
+$dd-medium-breakpoint: (768px / $dd-em-base) * 1em;
+$dd-large-breakpoint: (1024px / $dd-em-base) * 1em;
+$dd-x-large-breakpoint: (1440px / $dd-em-base) * 1em;
 
 $dd-media-screen: "only screen";
 
@@ -82,7 +82,7 @@ $dd-media-ie-10: "all and (-ms-high-contrast: none), (-ms-high-contrast: active)
   $background,
   $foreground,
   $initial-content-width,
-  $font-size: $dd-rem-base,
+  $font-size: $dd-em-base,
   $line-height: 1.5rem
 ) {
   body {
