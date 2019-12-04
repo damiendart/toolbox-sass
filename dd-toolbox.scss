@@ -49,6 +49,12 @@ $dd-media-x-large-down: "#{$dd-media-screen} and (max-width: #{$dd-x-large-break
 // more information, see <https://stackoverflow.com/a/20541859>.
 $dd-media-ie-10: "all and (-ms-high-contrast: none), (-ms-high-contrast: active)";
 
+// The following system font stack is the same as the one used in
+// WordPress' admin interface. For more information, see
+// <https://make.wordpress.org/core/2016/07/07/native-fonts-in-4-6/>.
+$dd-font-stack-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+
 
 // Returns a colour (currently black or white) that contrasts well
 // against the provided color. For more information, please see:
