@@ -10,8 +10,9 @@
 //
 // Having said that, feel free to have a browse and pinch stuff for your
 // own projects. If you're unfortunate enough to be working on a project
-// that uses this, at least everything usable is prefixed to prevent
-// issues with other frameworks and libraries.
+// that uses this, use a recent version of Sass that supports
+// namespacing stuff with the "@use" rule to prevent any issues with
+// other frameworks and libraries.
 //
 // Copyright (C) 2019 Damien Dart, <damiendart@pobox.com>.
 // This file is distributed under the MIT licence. For more information,
@@ -22,37 +23,37 @@
 // Foundation 5. For more information, please see
 // <https://foundation.zurb.com/sites/docs/v/5.5.3/media-queries.html>.
 
-$dd-em-base: 16px;
-$dd-one-pixel: (1px / $dd-em-base) * 1em;
+$base-one-em: 16px;
+$base-one-pixel: (1px / $base-one-em) * 1em;
 
-$dd-x-small-breakpoint: (320px / $dd-em-base) * 1em;
-$dd-small-breakpoint: (480px / $dd-em-base) * 1em;
-$dd-medium-breakpoint: (768px / $dd-em-base) * 1em;
-$dd-large-breakpoint: (1024px / $dd-em-base) * 1em;
-$dd-x-large-breakpoint: (1440px / $dd-em-base) * 1em;
+$breakpoint-x-small: (320px / $base-one-em) * 1em;
+$breakpoint-small: (480px / $base-one-em) * 1em;
+$breakpoint-medium: (768px / $base-one-em) * 1em;
+$breakpoint-large: (1024px / $base-one-em) * 1em;
+$breakpoint-x-large: (1440px / $base-one-em) * 1em;
 
-$dd-media-screen: "only screen";
+$media-screen: "only screen";
 
-$dd-media-x-small: "#{$dd-media-screen}";
-$dd-media-small: "#{$dd-media-screen} and (min-width: #{$dd-x-small-breakpoint + $dd-one-pixel})";
-$dd-media-medium: "#{$dd-media-screen} and (min-width: #{$dd-small-breakpoint + $dd-one-pixel})";
-$dd-media-large: "#{$dd-media-screen} and (min-width: #{$dd-medium-breakpoint + $dd-one-pixel})";
-$dd-media-x-large: "#{$dd-media-screen} and (min-width: #{$dd-large-breakpoint + $dd-one-pixel})";
+$media-x-small: "#{$media-screen}";
+$media-small: "#{$media-screen} and (min-width: #{$breakpoint-x-small + $base-one-pixel})";
+$media-medium: "#{$media-screen} and (min-width: #{$breakpoint-small + $base-one-pixel})";
+$media-large: "#{$media-screen} and (min-width: #{$breakpoint-medium + $base-one-pixel})";
+$media-x-large: "#{$media-screen} and (min-width: #{$breakpoint-large + $base-one-pixel})";
 
-$dd-media-x-small-down: "#{$dd-media-screen} and (max-width: #{$dd-x-small-breakpoint})";
-$dd-media-small-down: "#{$dd-media-screen} and (max-width: #{$dd-small-breakpoint})";
-$dd-media-medium-down: "#{$dd-media-screen} and (max-width: #{$dd-medium-breakpoint})";
-$dd-media-large-down: "#{$dd-media-screen} and (max-width: #{$dd-large-breakpoint})";
-$dd-media-x-large-down: "#{$dd-media-screen} and (max-width: #{$dd-x-large-breakpoint})";
+$media-x-small-down: "#{$media-screen} and (max-width: #{$breakpoint-x-small})";
+$media-small-down: "#{$media-screen} and (max-width: #{$breakpoint-small})";
+$media-medium-down: "#{$media-screen} and (max-width: #{$breakpoint-medium})";
+$media-large-down: "#{$media-screen} and (max-width: #{$breakpoint-large})";
+$media-x-large-down: "#{$media-screen} and (max-width: #{$breakpoint-x-large})";
 
 // This is a gross hack for targeting Internet Explorer 10 and 11. For
 // more information, see <https://stackoverflow.com/a/20541859>.
-$dd-media-ie-10: "all and (-ms-high-contrast: none), (-ms-high-contrast: active)";
+$media-ie-10: "all and (-ms-high-contrast: none), (-ms-high-contrast: active)";
 
 // The following system font stack is based on one used in WordPress'
 // admin interface. For more information, see
 // <https://make.wordpress.org/core/2016/07/07/native-fonts-in-4-6/>.
-$dd-font-stack-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+$font-stack-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
   Oxygen-Sans, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
 
 
@@ -60,7 +61,7 @@ $dd-font-stack-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
 // against the provided color. For more information, please see:
 //  - <https://webaim.org/resources/contrastchecker/> and
 //  - <https://css-tricks.com/css-variables-calc-rgb-enforcing-high-contrast-colors/>.
-@function dd-contrasting-colour($colour) {
+@function contrasting-colour($colour) {
   $sum: (red($colour) * 299) + (green($colour) * 587) + (blue($colour) * 144);
   @if $sum > 128000 {
     @return #000000; }
@@ -71,7 +72,7 @@ $dd-font-stack-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
 // - <http://www.antimath.info/css/sass-sqrt-function/>,
 // - <https://en.wikipedia.org/wiki/Newton%27s_method>, and
 // - <https://css-tricks.com/snippets/sass/strip-unit-function/>.
-@function dd-sqrt($number) {
+@function sqrt($number) {
   $x: 1;
   @if type-of($number) == "number" and not unitless($number) {
     $number: $number / ($number * 0 + 1); }
@@ -83,16 +84,16 @@ $dd-font-stack-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
 // Adds some bits-and-pieces to the "<body>" and "<html>" HTML elements
 // to create a reasonable (to me, at least) starting point and to have
 // the media-query-related variables above function as intended.
-@mixin dd-body-html-base(
+@mixin body-html-base(
   $font-stack,
   $background,
   $foreground,
   $initial-content-width,
-  $font-size: $dd-em-base,
+  $font-size: $base-one-em,
   $line-height: 1.5rem
 ) {
   body {
-    @include dd-nice-font-rendering;
+    @include nice-font-rendering;
     background: $background;
     color: $foreground;
     font-family: $font-stack;
@@ -105,7 +106,7 @@ $dd-font-stack-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
       max-width: $initial-content-width;
       padding-left: $line-height;
       padding-right: $line-height;
-      @media #{$dd-media-large} {
+      @media #{$media-large} {
         padding-left: $line-height * 2;
         padding-right: $line-height * 2; } } }
   html {
@@ -114,11 +115,11 @@ $dd-font-stack-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
       font-size: 87.5%;
     } @else {
       font-size: 100%; }
-    @media #{$dd-media-medium} {
+    @media #{$media-medium} {
       font-size: percentage($font-size / 16px); } } }
 
 // Yet Another Clearfix Mixin.
-@mixin dd-clearfix {
+@mixin clearfix {
   zoom: 1;
   &:after {
     clear: both; }
@@ -128,13 +129,13 @@ $dd-font-stack-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
 
 // Corrects inability to style clickable types in iOS and Safari. For
 // more information, see <https://github.com/necolas/normalize.css>.
-@mixin dd-clickable-reset {
+@mixin clickable-reset {
   -webkit-appearance: button;
   border-radius: 0; }
 
 // Adds stuff to create a hamburger-menu icon. The following is based on
 // <https://jonsuh.com/hamburgers/>.
-@mixin dd-hamburger($width, $layer-height, $spacing-height) {
+@mixin hamburger($width, $layer-height, $spacing-height) {
   $height: $layer-height * 3 + $spacing-height * 2;
   display: inline-block;
   height: $height;
@@ -169,7 +170,7 @@ $dd-font-stack-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
 // mixin may no longer be necessary for modern browsers (I should check
 // at some point). The following is based on
 // <https://gist.github.com/hsleonis/55712b0eafc9b25f1944>.
-@mixin dd-nice-font-rendering {
+@mixin nice-font-rendering {
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased; // Autoprefixer omits this.
   -moz-osx-font-smoothing: grayscale;
