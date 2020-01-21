@@ -1,0 +1,43 @@
+---
+version: 2
+
+output: prefixed
+
+tasks:
+  default:
+    deps:
+      - task: ci
+
+  ci:
+    cmds:
+      - task: dependencies
+      - task: lint
+    desc: Run all CI-related tasks
+
+  clean:
+    cmds:
+      - rm -fr node_modules
+    desc: Delete all JavaScript dependencies
+
+  dependencies:
+    cmds:
+      - task: dependencies:javascript
+    desc: Run all dependency-installing-related tasks
+
+  dependencies:javascript:
+    cmds:
+      # <http://www.tiernok.com/posts/2019/faster-npm-installs-during-ci/>
+      - npm ci --prefer-offline --no-audit
+    env:
+      CI: true
+    desc: Install JavaScript dependencies
+
+  lint:
+    cmds:
+      - task: lint:javascript
+    desc: Run all linting-related tasks
+
+  lint:javascript:
+    cmds:
+      - npx eslint buildstatic/**
+    desc: Lint JavaScript files with ESLint
