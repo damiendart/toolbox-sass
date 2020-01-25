@@ -40,6 +40,7 @@ class TwigProcessor {
             { headerIds: false, smartypants: true },
           );
         },
+        [],
         { is_safe: ['html'] },
       ),
     );
