@@ -39,5 +39,5 @@ tasks:
 
   lint:javascript:
     cmds:
-      - npx eslint buildstatic/**
+      - npx eslint buildstatic/** javascript/**
     desc: Lint JavaScript files with ESLint

@@ -23,29 +23,36 @@ class JavaScriptProcessor {
     return new Promise((resolve, reject) => {
       browserify()
         .add(inputFile)
-        .transform((file) => {
-          const chunks = [];
+        .transform(
+          (file) => {
+            const chunks = [];
 
-          return new stream.Transform({
-            flush(callback) {
-              babel.transform(
-                Buffer.concat(chunks).toString(),
-                { filename: file, presets: ['@babel/preset-env'] },
-                (err, result) => {
-                  if (err) {
-                    callback(err);
-                  } else {
-                    callback(null, result.code);
-                  }
-                },
-              );
-            },
-            transform(chunk, encoding, callback) {
-              chunks.push(chunk);
-              callback();
-            },
-          });
-        })
+            return new stream.Transform({
+              flush(callback) {
+                babel.transform(
+                  Buffer.concat(chunks).toString(),
+                  {
+                    filename: file,
+                    ignore: [/node_modules\/(?!toolbox-sass\/)/],
+                    presets: ['@babel/preset-env'],
+                  },
+                  (err, result) => {
+                    if (err) {
+                      callback(err);
+                    } else {
+                      callback(null, result.code);
+                    }
+                  },
+                );
+              },
+              transform(chunk, encoding, callback) {
+                chunks.push(chunk);
+                callback();
+              },
+            });
+          },
+          { global: true },
+        )
         .bundle((err, result) => {
           if (err) {
             reject(err);
