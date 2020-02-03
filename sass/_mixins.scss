@@ -7,7 +7,6 @@
 
 @use "variables" as *;
 
-
 // Adds some bits-and-pieces to the "<body>" and "<html>" HTML elements
 // to create a reasonable (to me, at least) starting point and to have
 // the media-query-related variables function as intended.
@@ -27,71 +26,108 @@
     line-height: $line-height;
     margin: 0;
     text-size-adjust: none;
+
     & > *:not(div):not(footer):not(header):not(main) {
       margin-left: auto;
       margin-right: auto;
       max-width: $initial-content-width;
       padding-left: $line-height;
       padding-right: $line-height;
+
       @media #{$media-large} {
         padding-left: $line-height * 2;
-        padding-right: $line-height * 2; } } }
+        padding-right: $line-height * 2;
+      }
+    }
+  }
+
   html {
     // TODO: Handle instances when font size specified is below 16px.
     @if($font-size == 16px) {
       font-size: 87.5%;
     } @else {
-      font-size: 100%; }
+      font-size: 100%;
+    }
+
     @media #{$media-medium} {
-      font-size: percentage($font-size / 16px); } } }
+      font-size: percentage($font-size / 16px);
+    }
+  }
+}
 
 // Yet Another Clearfix Mixin.
 @mixin clearfix {
   zoom: 1;
+
   &:after {
-    clear: both; }
-  &:before, &:after {
+    clear: both;
+  }
+
+  &:after,
+  &:before {
     content: "";
-    display: table; } }
+    display: table;
+  }
+}
 
 // Corrects inability to style clickable types in iOS and Safari. For
 // more information, see <https://github.com/necolas/normalize.css>.
 @mixin clickable-reset {
   -webkit-appearance: button;
-  border-radius: 0; }
+  border-radius: 0;
+}
 
 // Adds stuff to create a hamburger-menu icon. The following is based on
 // <https://jonsuh.com/hamburgers/>.
 @mixin hamburger($width, $layer-height, $spacing-height) {
   $height: $layer-height * 3 + $spacing-height * 2;
+
   display: inline-block;
   height: $height;
   position: relative;
   width: $width;
+
   &__filling {
     margin: $layer-height / -2 0 0 0;
     top: 50%;
+
     &:after {
       bottom: ($spacing-height + $layer-height) * -1;
-      content: ""; }
+      content: "";
+    }
+
     &:before {
       content: "";
-      top: ($spacing-height + $layer-height) * -1; }
-    &, &:after, &:before {
+      top: ($spacing-height + $layer-height) * -1;
+    }
+
+    &,
+    &:after,
+    &:before {
       background: currentColor;
       border-radius: $layer-height;
       display: block;
       height: $layer-height;
       position: absolute;
-      width: 100%; } }
+      width: 100%;
+    }
+  }
+
   &--active {
     .hamburger__filling {
       transform: rotate(-45deg);
+
       &:after {
-        transform: translate3d(0, ($spacing-height + $layer-height) * -1, 0) rotate(-90deg); }
+        transform: translate3d(0, ($spacing-height + $layer-height) * -1, 0) rotate(-90deg);
+      }
+
       &:before {
         opacity: 0;
-        transform: translate3d(0, $spacing-height + $layer-height, 0) rotate(45deg); } } } }
+        transform: translate3d(0, $spacing-height + $layer-height, 0) rotate(45deg);
+      }
+    }
+  }
+}
 
 // Adds declarations to improve font rendering in most browsers. This
 // mixin may no longer be necessary for modern browsers (I should check
@@ -106,4 +142,5 @@
   // "-webkit-" prefix here despite Autoprefixer thinking otherwise.
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%; // Just In Case(tm).
-  text-size-adjust: none; }
+  text-size-adjust: none;
+}

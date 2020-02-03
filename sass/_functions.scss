@@ -11,9 +11,13 @@
 //  - <https://css-tricks.com/css-variables-calc-rgb-enforcing-high-contrast-colors/>.
 @function contrasting-colour($colour) {
   $sum: (red($colour) * 299) + (green($colour) * 587) + (blue($colour) * 144);
+
   @if $sum > 128000 {
-    @return #000000; }
-  @return #ffffff; }
+    @return #000000;
+  }
+
+  @return #ffffff;
+}
 
 // Returns the square root of the provided number using Newton's Method.
 // For more information, please see:
@@ -22,8 +26,14 @@
 // - <https://css-tricks.com/snippets/sass/strip-unit-function/>.
 @function sqrt($number) {
   $x: 1;
+
   @if type-of($number) == "number" and not unitless($number) {
-    $number: $number / ($number * 0 + 1); }
+    $number: $number / ($number * 0 + 1);
+  }
+
   @for $i from 1 through 10 {
-    $x: $x - ($x * $x - abs($number)) / (2 * $x); }
-  @return $x; }
+    $x: $x - ($x * $x - abs($number)) / (2 * $x);
+  }
+
+  @return $x;
+}
