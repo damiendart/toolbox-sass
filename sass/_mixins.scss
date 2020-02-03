@@ -4,7 +4,6 @@
 // This file is distributed under the MIT licence. For more information,
 // please refer to the accompanying "LICENCE" file.
 
-
 @use "variables" as *;
 
 // Adds some bits-and-pieces to the "<body>" and "<html>" HTML elements
@@ -20,6 +19,7 @@
 ) {
   body {
     @include nice-font-rendering;
+
     background: $background;
     color: $foreground;
     font-family: $font-stack;
@@ -43,9 +43,10 @@
 
   html {
     // TODO: Handle instances when font size specified is below 16px.
-    @if($font-size == 16px) {
+    @if ($font-size == 16px) {
       font-size: 87.5%;
-    } @else {
+    }
+    @else {
       font-size: 100%;
     }
 
@@ -59,12 +60,12 @@
 @mixin clearfix {
   zoom: 1;
 
-  &:after {
+  &::after {
     clear: both;
   }
 
-  &:after,
-  &:before {
+  &::after,
+  &::before {
     content: "";
     display: table;
   }
@@ -91,19 +92,19 @@
     margin: $layer-height / -2 0 0 0;
     top: 50%;
 
-    &:after {
+    &::after {
       bottom: ($spacing-height + $layer-height) * -1;
       content: "";
     }
 
-    &:before {
+    &::before {
       content: "";
       top: ($spacing-height + $layer-height) * -1;
     }
 
     &,
-    &:after,
-    &:before {
+    &::after,
+    &::before {
       background: currentColor;
       border-radius: $layer-height;
       display: block;
@@ -117,11 +118,11 @@
     .hamburger__filling {
       transform: rotate(-45deg);
 
-      &:after {
+      &::after {
         transform: translate3d(0, ($spacing-height + $layer-height) * -1, 0) rotate(-90deg);
       }
 
-      &:before {
+      &::before {
         opacity: 0;
         transform: translate3d(0, $spacing-height + $layer-height, 0) rotate(45deg);
       }
@@ -134,6 +135,7 @@
 // at some point). The following is based on
 // <https://gist.github.com/hsleonis/55712b0eafc9b25f1944>.
 @mixin nice-font-rendering {
+  /* stylelint-disable-next-line property-no-unknown */
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased; // Autoprefixer omits this.
   -moz-osx-font-smoothing: grayscale;
