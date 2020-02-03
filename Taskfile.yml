@@ -35,9 +35,15 @@ tasks:
   lint:
     cmds:
       - task: lint:javascript
+      - task: lint:sass
     desc: Run all linting-related tasks
 
   lint:javascript:
     cmds:
-      - npx eslint buildstatic/** javascript/**
+      - npx eslint --ignore-pattern '!.stylelintrc.js' .stylelintrc.js buildstatic/** javascript/**
     desc: Lint JavaScript files with ESLint
+
+  lint:sass:
+    cmds:
+      - 'npx stylelint _index.scss "sass/*.scss"'
+    desc: Lint Sass files with Stylelint
