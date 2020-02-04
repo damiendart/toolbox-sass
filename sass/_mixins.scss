@@ -25,7 +25,6 @@
     font-family: $font-stack;
     line-height: $line-height;
     margin: 0;
-    text-size-adjust: none;
 
     & > *:not(div):not(footer):not(header):not(main) {
       margin-left: auto;
