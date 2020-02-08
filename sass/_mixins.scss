@@ -6,52 +6,19 @@
 
 @use "variables" as *;
 
-// Adds some bits-and-pieces to the "<body>" and "<html>" HTML elements
-// to create a reasonable (to me, at least) starting point and to have
-// the media-query-related variables function as intended.
-@mixin body-html-base(
-  $font-stack,
-  $background,
-  $foreground,
-  $initial-content-width,
-  $font-size: $base-one-em,
-  $line-height: 1.5rem
-) {
-  body {
-    @include nice-font-rendering;
-
-    background: $background;
-    color: $foreground;
-    font-family: $font-stack;
-    line-height: $line-height;
-    margin: 0;
-
-    & > *:not(div):not(footer):not(header):not(main) {
-      margin-left: auto;
-      margin-right: auto;
-      max-width: $initial-content-width;
-      padding-left: $line-height;
-      padding-right: $line-height;
-
-      @media #{$media-large} {
-        padding-left: $line-height * 2;
-        padding-right: $line-height * 2;
-      }
-    }
+// Spits out bits-and-pieces for the "<html>" HTML element so that
+// the media-query-related variables work as intended.
+@mixin html-base($font-size: $base-one-em) {
+  // TODO: Handle instances when font size specified is below 16px.
+  @if ($font-size == 16px) {
+    font-size: 87.5%;
+  }
+  @else {
+    font-size: 100%;
   }
 
-  html {
-    // TODO: Handle instances when font size specified is below 16px.
-    @if ($font-size == 16px) {
-      font-size: 87.5%;
-    }
-    @else {
-      font-size: 100%;
-    }
-
-    @media #{$media-medium} {
-      font-size: percentage($font-size / 16px);
-    }
+  @media #{$media-medium} {
+    font-size: percentage($font-size / 16px);
   }
 }
 
