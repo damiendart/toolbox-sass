@@ -26,7 +26,7 @@ if (
 
   (askingForHelp ? console.log : console.error)(
     `"${path.basename(process.argv[1])}" is a real basic static site generator.
-    Usage: ${path.basename(process.argv[1])} [INPUT-DIRECTORY] [OUTPUT-DIRECTORY]`
+    Usage: ${path.basename(process.argv[1])} INPUT-DIRECTORY OUTPUT-DIRECTORY`
       .trim().replace(/\n {4}/g, '\n'),
   );
   process.exit(askingForHelp ? 0 : 1);
