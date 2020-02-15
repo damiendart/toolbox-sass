@@ -6,6 +6,7 @@
 /* eslint no-console: 0 global-require: 0 */
 /* eslint-env node */
 
+const exec = require('util').promisify(require('child_process').exec);
 const fse = require('fs-extra');
 const glob = require('util').promisify(require('glob'));
 const path = require('path');
@@ -44,16 +45,48 @@ glob('**/*', { cwd: inputDirectory, nodir: true })
 
     if (applicableProcessors.length > 0) {
       return Promise.all(
-        applicableProcessors.map((processor) => {
+        applicableProcessors.map((Processor) => {
           const inputFile = path.join(inputDirectory, file);
           const outputFile = path.join(outputDirectory, file)
-            .replace(processor.INPUT_EXTENSION, processor.OUTPUT_EXTENSION);
+            .replace(Processor.INPUT_EXTENSION, Processor.OUTPUT_EXTENSION);
 
           return fse.mkdirs(path.dirname(outputFile))
             .then(() => fse.readFile(inputFile, 'utf8'))
             .then(
-              // eslint-disable-next-line new-cap
-              (fileContents) => (new processor()).process(fileContents, inputFile, outputFile),
+              (fileContents) => exec(
+                `git log -n 1 --pretty=format:'%H %at' ${inputFile}`,
+              )
+                .then(
+                  (gitOutput) => {
+                    const [hash, timestamp] = gitOutput.stdout.split(' ');
+
+                    return {
+                      fileContents,
+                      gitMetadata: {
+                        hash,
+                        timestamp: new Date(parseInt(timestamp, 10)),
+                      },
+                    };
+                  },
+                ),
+            )
+            .then(
+              (input) => {
+                const p = new Processor();
+
+                return p.process(
+                  input.fileContents,
+                  {
+                    inputFile: {
+                      name: inputFile,
+                      git: input.gitMetadata,
+                    },
+                    outputFile: {
+                      name: outputFile,
+                    },
+                  },
+                );
+              },
             )
             .then((output) => fse.writeFile(outputFile, output))
             .then(() => {

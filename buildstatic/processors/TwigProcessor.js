@@ -5,10 +5,12 @@
 /* eslint-env node */
 
 const { minify } = require('html-minifier');
-const { promisify } = require('util');
-const { TwingEnvironment, TwingFilter, TwingLoaderRelativeFilesystem } = require('twing');
+const {
+  TwingEnvironment,
+  TwingFilter,
+  TwingLoaderRelativeFilesystem,
+} = require('twing');
 
-const exec = promisify(require('child_process').exec);
 const marked = require('marked');
 
 class TwigProcessor {
@@ -50,17 +52,12 @@ class TwigProcessor {
     );
   }
 
-  process(content, inputFile) {
-    return exec(`git log -n 1 --pretty=format:'%H %at' ${inputFile}`)
-      .then((gitOutput) => new Promise((resolve) => {
-        const [gitHash, modified] = gitOutput.stdout.split(' ');
-        const template = this.twingEnvironment.load(inputFile);
+  process(content, context) {
+    return new Promise((resolve) => {
+      const template = this.twingEnvironment.load(context.inputFile.name);
 
-        resolve(template.render({
-          gitHash,
-          modified: new Date(parseInt(modified, 10)),
-        }));
-      }))
+      resolve(template.render(context));
+    })
       .then((html) => minify(html,
         {
           collapseWhitespace: true,

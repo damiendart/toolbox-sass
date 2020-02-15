@@ -19,10 +19,10 @@ class JavaScriptProcessor {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  process(content, inputFile) {
+  process(content, context) {
     return new Promise((resolve, reject) => {
       browserify()
-        .add(inputFile)
+        .add(context.inputFile.name)
         .transform(
           (file) => {
             const chunks = [];

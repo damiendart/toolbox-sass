@@ -19,10 +19,10 @@ class SassProcessor {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  process(content, inputFile) {
+  process(content, context) {
     return postcss([autoprefixer]).process(
       sass.renderSync({ data: content }).css.toString(),
-      { from: inputFile },
+      { from: context.inputFile.name },
     )
       .then((postCSSOutput) => new CleanCSS().minify(postCSSOutput.css).styles);
   }
