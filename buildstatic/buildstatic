@@ -84,6 +84,9 @@ glob('**/*', { cwd: inputDirectory, nodir: true })
                     outputFile: {
                       name: outputFile,
                     },
+                    deployment: {
+                      releaseID: process.env.RELEASE_ID || '',
+                    },
                   },
                 );
               },
