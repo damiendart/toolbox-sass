@@ -18,10 +18,13 @@ class Clipboard {
       ? document.getSelection().getRangeAt(0)
       : false;
     const textAreaElement = document.createElement('textarea');
+    const currentVerticalPosition = window.pageYOffset
+      || document.documentElement.scrollTop;
 
     textAreaElement.setAttribute('readonly', '');
     textAreaElement.style.left = '-9999px';
     textAreaElement.style.position = 'absolute';
+    textAreaElement.style.top = `${currentVerticalPosition}px`;
     textAreaElement.value = text;
 
     document.body.appendChild(textAreaElement);
