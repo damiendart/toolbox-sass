@@ -18,8 +18,7 @@ class JavaScriptProcessor {
     return this.INPUT_EXTENSION;
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  process(content, context) {
+  static process(content, context) {
     return new Promise((resolve, reject) => {
       browserify()
         .add(context.inputFile.name)

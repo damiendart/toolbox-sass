@@ -18,8 +18,7 @@ class SassProcessor {
     return '.css';
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  process(content, context) {
+  static process(content, context) {
     return postcss([autoprefixer]).process(
       sass.renderSync({ data: content }).css.toString(),
       { from: context.inputFile.name },

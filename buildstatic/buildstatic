@@ -70,27 +70,21 @@ glob('**/*', { cwd: inputDirectory, nodir: true })
                   },
                 ),
             )
-            .then(
-              (input) => {
-                const p = new Processor();
-
-                return p.process(
-                  input.fileContents,
-                  {
-                    inputFile: {
-                      name: inputFile,
-                      git: input.gitMetadata,
-                    },
-                    outputFile: {
-                      name: outputFile,
-                    },
-                    deployment: {
-                      releaseID: process.env.RELEASE_ID || '',
-                    },
-                  },
-                );
+            .then((input) => Processor.process(
+              input.fileContents,
+              {
+                inputFile: {
+                  name: inputFile,
+                  git: input.gitMetadata,
+                },
+                outputFile: {
+                  name: outputFile,
+                },
+                deployment: {
+                  releaseID: process.env.RELEASE_ID || '',
+                },
               },
-            )
+            ))
             .then((output) => fse.writeFile(outputFile, output))
             .then(() => {
               console.log(`[✔] Written "${outputFile}"`);

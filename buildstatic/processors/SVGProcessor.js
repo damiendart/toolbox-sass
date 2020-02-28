@@ -15,8 +15,7 @@ class SVGProcessor {
     return this.INPUT_EXTENSION;
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  process(content) {
+  static process(content) {
     return new SVGO().optimize(content).then((output) => output.data);
   }
 }

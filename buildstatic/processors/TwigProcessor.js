@@ -22,13 +22,14 @@ class TwigProcessor {
     return '';
   }
 
-  constructor() {
-    this.twingEnvironment = new TwingEnvironment(
+  // eslint-disable-next-line no-underscore-dangle
+  static _initEnvironment() {
+    const twingEnvironment = new TwingEnvironment(
       new TwingLoaderRelativeFilesystem(),
       { strict_variables: true },
     );
 
-    this.twingEnvironment.addFilter(
+    twingEnvironment.addFilter(
       new TwingFilter(
         'markdown',
         (markup) => {
@@ -50,11 +51,16 @@ class TwigProcessor {
         { is_safe: ['html'] },
       ),
     );
+
+    return twingEnvironment;
   }
 
-  process(content, context) {
+  static process(content, context) {
     return new Promise((resolve) => {
-      const template = this.twingEnvironment.load(context.inputFile.name);
+      // eslint-disable-next-line no-underscore-dangle
+      const template = TwigProcessor
+        ._initEnvironment()
+        .load(context.inputFile.name);
 
       resolve(template.render(context));
     })
