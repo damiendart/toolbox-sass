@@ -6,7 +6,6 @@
 /* eslint no-console: 0 global-require: 0 */
 /* eslint-env node */
 
-const exec = require('util').promisify(require('child_process').exec);
 const fse = require('fs-extra');
 const glob = require('util').promisify(require('glob'));
 const path = require('path');
@@ -33,9 +32,28 @@ if (
   process.exit(askingForHelp ? 0 : 1);
 }
 
+const configurationOptions = { contextModifier: (context) => context };
 const inputDirectory = path.resolve(process.argv[2]);
 const outputDirectory = path.resolve(process.argv[3]);
 let writtenFilesCount = 0;
+
+try {
+  Object.assign(
+    configurationOptions,
+    // eslint-disable-next-line import/no-dynamic-require
+    require(`${inputDirectory}/.buildstatic.conf`),
+  );
+} catch (e) {
+  if (e.code === 'MODULE_NOT_FOUND') {
+    console.error('[!] No ".buildstatic.conf.js" found in input directory');
+  } else {
+    console.error(
+      `[✘] Unable to process "${inputDirectory}/.buildconfig.conf.js!`,
+    );
+    console.error(`\n${e.toString()}`);
+    process.exit(1);
+  }
+}
 
 glob('**/*', { cwd: inputDirectory, nodir: true })
   .then((files) => Promise.all(files.map((file) => {
@@ -49,42 +67,20 @@ glob('**/*', { cwd: inputDirectory, nodir: true })
           const inputFile = path.join(inputDirectory, file);
           const outputFile = path.join(outputDirectory, file)
             .replace(Processor.INPUT_EXTENSION, Processor.OUTPUT_EXTENSION);
+          let processorContext = {
+            inputFile: { name: inputFile },
+            outputFile: { name: outputFile },
+          };
+
+          if (configurationOptions.contextModifier instanceof Function) {
+            processorContext = configurationOptions.contextModifier(
+              processorContext,
+            );
+          }
 
           return fse.mkdirs(path.dirname(outputFile))
             .then(() => fse.readFile(inputFile, 'utf8'))
-            .then(
-              (fileContents) => exec(
-                `git log -n 1 --pretty=format:'%H %at' ${inputFile}`,
-              )
-                .then(
-                  (gitOutput) => {
-                    const [hash, timestamp] = gitOutput.stdout.split(' ');
-
-                    return {
-                      fileContents,
-                      gitMetadata: {
-                        hash,
-                        timestamp: new Date(parseInt(timestamp, 10)),
-                      },
-                    };
-                  },
-                ),
-            )
-            .then((input) => Processor.process(
-              input.fileContents,
-              {
-                inputFile: {
-                  name: inputFile,
-                  git: input.gitMetadata,
-                },
-                outputFile: {
-                  name: outputFile,
-                },
-                deployment: {
-                  releaseID: process.env.RELEASE_ID || '',
-                },
-              },
-            ))
+            .then((contents) => Processor.process(contents, processorContext))
             .then((output) => fse.writeFile(outputFile, output))
             .then(() => {
               console.log(`[✔] Written "${outputFile}"`);
