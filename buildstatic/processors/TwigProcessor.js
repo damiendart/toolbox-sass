@@ -52,6 +52,25 @@ class TwigProcessor {
       ),
     );
 
+    twingEnvironment.addFilter(
+      new TwingFilter(
+        'smartypants',
+        // The following is based on Marked's SmartyPants
+        // implementation. This implementation is only suitable for
+        // processing plain text as it will happily destroy HTML markup.
+        (string) => string
+          .replace(/---/g, '—')
+          .replace(/--/g, '–')
+          .replace(/(^|[-—/([{"\s])'/g, '$1‘')
+          .replace(/'/g, '’')
+          .replace(/(^|[-—/([{‘\s])"/g, '$1“')
+          .replace(/"/g, '”')
+          .replace(/\.{3}/g, '…'),
+        [],
+        { is_safe: ['html'] },
+      ),
+    );
+
     return twingEnvironment;
   }
 
