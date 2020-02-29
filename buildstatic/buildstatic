@@ -69,7 +69,9 @@ glob('**/*', { cwd: inputDirectory, nodir: true })
             .replace(Processor.INPUT_EXTENSION, Processor.OUTPUT_EXTENSION);
           let processorContext = {
             inputFile: { name: inputFile },
+            inputDirectory,
             outputFile: { name: outputFile },
+            outputDirectory,
           };
 
           if (configurationOptions.contextModifier instanceof Function) {

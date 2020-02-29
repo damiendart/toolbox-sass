@@ -8,7 +8,7 @@ const { minify } = require('html-minifier');
 const {
   TwingEnvironment,
   TwingFilter,
-  TwingLoaderRelativeFilesystem,
+  TwingLoaderFilesystem,
 } = require('twing');
 
 const marked = require('marked');
@@ -23,9 +23,9 @@ class TwigProcessor {
   }
 
   // eslint-disable-next-line no-underscore-dangle
-  static _initEnvironment() {
+  static _initEnvironment(directory) {
     const twingEnvironment = new TwingEnvironment(
-      new TwingLoaderRelativeFilesystem(),
+      new TwingLoaderFilesystem(directory),
       { strict_variables: true },
     );
 
@@ -59,8 +59,10 @@ class TwigProcessor {
     return new Promise((resolve) => {
       // eslint-disable-next-line no-underscore-dangle
       const template = TwigProcessor
-        ._initEnvironment()
-        .load(context.inputFile.name);
+        ._initEnvironment(context.inputDirectory)
+        .load(
+          context.inputFile.name.replace(context.inputDirectory, ''),
+        );
 
       resolve(template.render(context));
     })
