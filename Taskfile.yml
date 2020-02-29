@@ -26,8 +26,7 @@ tasks:
 
   dependencies:javascript:
     cmds:
-      # <http://www.tiernok.com/posts/2019/faster-npm-installs-during-ci/>
-      - npm ci --prefer-offline --no-audit
+      - npm install
     env:
       CI: true
     desc: Install JavaScript dependencies
