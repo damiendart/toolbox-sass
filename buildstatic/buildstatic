@@ -11,6 +11,7 @@ const glob = require('util').promisify(require('glob'));
 const path = require('path');
 const processors = [
   require('./processors/JavaScriptProcessor'),
+  require('./processors/MarkdownProcessor'),
   require('./processors/SassProcessor'),
   require('./processors/SVGProcessor'),
   require('./processors/TwigProcessor'),
