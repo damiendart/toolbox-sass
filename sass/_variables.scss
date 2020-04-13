@@ -8,22 +8,22 @@
 // Foundation 5. For more information, please see
 // <https://foundation.zurb.com/sites/docs/v/5.5.3/media-queries.html>.
 
-$base-one-em: 16px;
-$base-one-pixel: (1px / $base-one-em) * 1em;
+$base-one-em-in-pixels: 16px;
+$base-one-pixel-in-em: (1px / $base-one-em-in-pixels) * 1em;
 
-$breakpoint-x-small: (320px / $base-one-em) * 1em;
-$breakpoint-small: (480px / $base-one-em) * 1em;
-$breakpoint-medium: (768px / $base-one-em) * 1em;
-$breakpoint-large: (1024px / $base-one-em) * 1em;
-$breakpoint-x-large: (1440px / $base-one-em) * 1em;
+$breakpoint-x-small: (320px / $base-one-em-in-pixels) * 1em;
+$breakpoint-small: (480px / $base-one-em-in-pixels) * 1em;
+$breakpoint-medium: (768px / $base-one-em-in-pixels) * 1em;
+$breakpoint-large: (1024px / $base-one-em-in-pixels) * 1em;
+$breakpoint-x-large: (1440px / $base-one-em-in-pixels) * 1em;
 
 $media-screen: "only screen";
 
 $media-x-small: "#{$media-screen}";
-$media-small: "#{$media-screen} and (min-width: #{$breakpoint-x-small + $base-one-pixel})";
-$media-medium: "#{$media-screen} and (min-width: #{$breakpoint-small + $base-one-pixel})";
-$media-large: "#{$media-screen} and (min-width: #{$breakpoint-medium + $base-one-pixel})";
-$media-x-large: "#{$media-screen} and (min-width: #{$breakpoint-large + $base-one-pixel})";
+$media-small: "#{$media-screen} and (min-width: #{$breakpoint-x-small + $base-one-pixel-in-em})";
+$media-medium: "#{$media-screen} and (min-width: #{$breakpoint-small + $base-one-pixel-in-em})";
+$media-large: "#{$media-screen} and (min-width: #{$breakpoint-medium + $base-one-pixel-in-em})";
+$media-x-large: "#{$media-screen} and (min-width: #{$breakpoint-large + $base-one-pixel-in-em})";
 
 $media-x-small-down: "#{$media-screen} and (max-width: #{$breakpoint-x-small})";
 $media-small-down: "#{$media-screen} and (max-width: #{$breakpoint-small})";
