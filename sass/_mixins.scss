@@ -112,3 +112,29 @@
   -ms-text-size-adjust: 100%; // Just In Case(tm).
   text-size-adjust: none;
 }
+
+// Adds stuff to create a basic loading spinner. The following is based
+// on <https://stephanwagner.me/only-css-loading-spinner>.
+@mixin spinner($width, $colour, $border-width) {
+  @at-root {
+    @keyframes spinner {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
+  animation: spinner .6s linear infinite;
+  border-top: $border-width solid $colour;
+  border-radius: 50%;
+  border-right: $border-width solid transparent;
+  box-sizing: border-box;
+  content: '';
+  height: $width;
+  left: 50%;
+  margin: ($width / -2) 0 0 ($width / -2);
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  width: $width;
+}
