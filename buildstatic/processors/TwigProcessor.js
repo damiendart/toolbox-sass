@@ -71,6 +71,17 @@ class TwigProcessor {
       ),
     );
 
+    twingEnvironment.addFilter(
+      new TwingFilter(
+        'widont',
+        // The following is based on
+        // <http://justinhileman.info/article/a-jquery-widont-snippet/>.
+        (string) => string.replace(/\s([^\s<]+)\s*$/, '&nbsp;$1'),
+        [],
+        { is_safe: ['html'] },
+      ),
+    );
+
     return twingEnvironment;
   }
 
