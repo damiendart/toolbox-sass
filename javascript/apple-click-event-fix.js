@@ -2,6 +2,11 @@
 // This file is distributed under the MIT licence. For more information,
 // please refer to the accompanying "LICENCE" file.
 
+// eslint-disable-next-line no-underscore-dangle
+function _noop() {
+  return () => {};
+}
+
 // Account for iOS and iPadOS WebKit's busted handling of mouse events.
 // See <https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html>
 // for more information. This fix is based on one used by Bootstrap.
@@ -12,19 +17,15 @@ function applyFix() {
     // <https://developer.mozilla.org/en-US/docs/Web/API/NodeList#Example>
     // for more information.
     Array.prototype.forEach.call(document.body.children, (element) => {
-      element.addEventListener('mouseover', this.noop);
+      element.addEventListener('mouseover', _noop);
     });
   }
 }
 
-function noop() {
-  return () => {};
-}
-
 function removeFix() {
   Array.prototype.forEach.call(document.body.children, (element) => {
-    element.removeEventListener('mouseover', this.noop);
+    element.removeEventListener('mouseover', _noop);
   });
 }
 
-module.exports = { applyFix, noop, removeFix };
+module.exports = { applyFix, removeFix };
