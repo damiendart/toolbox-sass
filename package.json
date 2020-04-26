@@ -10,8 +10,8 @@
     "buildstatic": "./buildstatic/buildstatic"
   },
   "dependencies": {
-    "@babel/core": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
     "autoprefixer": "^9.7.4",
     "browserify": "^16.5.0",
     "clean-css": "^4.2.1",
