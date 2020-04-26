@@ -1,5 +1,6 @@
 {
   "name": "toolbox-sass",
+  "version": "0.1.0",
   "description": "A hodgepodge of web-development-related stuff.",
   "main": "_index.scss",
   "author": "Damien Dart",
