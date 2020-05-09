@@ -12,6 +12,7 @@ const {
 } = require('twing');
 
 const marked = require('marked');
+const path = require('path');
 
 class TwigProcessor {
   static get INPUT_EXTENSION() {
@@ -24,9 +25,15 @@ class TwigProcessor {
 
   // eslint-disable-next-line no-underscore-dangle
   static _initEnvironment(directory) {
+    const twingLoader = new TwingLoaderFilesystem(directory);
     const twingEnvironment = new TwingEnvironment(
-      new TwingLoaderFilesystem(directory),
+      twingLoader,
       { strict_variables: true },
+    );
+
+    twingLoader.addPath(
+      path.resolve(__dirname, '../../twig'),
+      'toolbox-sass',
     );
 
     twingEnvironment.addFilter(
