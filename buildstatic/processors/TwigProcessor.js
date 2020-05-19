@@ -46,12 +46,14 @@ class TwigProcessor {
             `^${indentation && indentation.length}` ? indentation[0] : '',
           );
 
-          return marked(
-            markdown.split(/\r?\n/).reduce(
-              (carry, line) => `${carry}${line.replace(indentationRegex, '')}\n`,
-              '',
+          return Promise.resolve(
+            marked(
+              markdown.split(/\r?\n/).reduce(
+                (carry, line) => `${carry}${line.replace(indentationRegex, '')}\n`,
+                '',
+              ),
+              { headerIds: false, smartypants: true },
             ),
-            { headerIds: false, smartypants: true },
           );
         },
         [],
@@ -65,14 +67,16 @@ class TwigProcessor {
         // The following is based on Marked's SmartyPants
         // implementation. This implementation is only suitable for
         // processing plain text as it will happily destroy HTML markup.
-        (string) => string
-          .replace(/---/g, '—')
-          .replace(/--/g, '–')
-          .replace(/(^|[-—/([{"\s])'/g, '$1‘')
-          .replace(/'/g, '’')
-          .replace(/(^|[-—/([{‘\s])"/g, '$1“')
-          .replace(/"/g, '”')
-          .replace(/\.{3}/g, '…'),
+        (string) => Promise.resolve(
+          string
+            .replace(/---/g, '—')
+            .replace(/--/g, '–')
+            .replace(/(^|[-—/([{"\s])'/g, '$1‘')
+            .replace(/'/g, '’')
+            .replace(/(^|[-—/([{‘\s])"/g, '$1“')
+            .replace(/"/g, '”')
+            .replace(/\.{3}/g, '…'),
+        ),
         [],
         { is_safe: ['html'] },
       ),
@@ -83,7 +87,9 @@ class TwigProcessor {
         'widont',
         // The following is based on
         // <http://justinhileman.info/article/a-jquery-widont-snippet/>.
-        (string) => string.replace(/\s([^\s<]+)\s*$/, '&nbsp;$1'),
+        (string) => Promise.resolve(
+          string.replace(/\s([^\s<]+)\s*$/, '&nbsp;$1'),
+        ),
         [],
         { is_safe: ['html'] },
       ),
@@ -93,24 +99,23 @@ class TwigProcessor {
   }
 
   static process(content, context) {
-    return new Promise((resolve) => {
-      // eslint-disable-next-line no-underscore-dangle
-      const template = TwigProcessor
-        ._initEnvironment(context.inputDirectory)
-        .load(
-          context.inputFile.name.replace(context.inputDirectory, ''),
-        );
-
-      resolve(template.render(context));
-    })
-      .then((html) => minify(html,
+    // eslint-disable-next-line no-underscore-dangle
+    return TwigProcessor
+      ._initEnvironment(context.inputDirectory)
+      .render(
+        context.inputFile.name.replace(context.inputDirectory, ''),
+        context,
+      )
+      .then((html) => minify(
+        html,
         {
           collapseWhitespace: true,
           decodeEntities: true,
           minifyJS: true,
           removeComments: true,
           removeEmptyAttributes: true,
-        }));
+        },
+      ));
   }
 }
 
