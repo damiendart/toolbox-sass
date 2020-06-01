@@ -19,17 +19,25 @@ $breakpoint-x-large: (1440px / $base-one-em-in-pixels) * 1em;
 
 $media-screen: "only screen";
 
-$media-x-small: "#{$media-screen}";
-$media-small: "#{$media-screen} and (min-width: #{$breakpoint-x-small + $base-one-pixel-in-em})";
-$media-medium: "#{$media-screen} and (min-width: #{$breakpoint-small + $base-one-pixel-in-em})";
-$media-large: "#{$media-screen} and (min-width: #{$breakpoint-medium + $base-one-pixel-in-em})";
-$media-x-large: "#{$media-screen} and (min-width: #{$breakpoint-large + $base-one-pixel-in-em})";
-
 $media-x-small-down: "#{$media-screen} and (max-width: #{$breakpoint-x-small})";
+$media-x-small-only: "#{$media-x-small-down}";
+$media-x-small-up: "#{$media-screen}";
+
 $media-small-down: "#{$media-screen} and (max-width: #{$breakpoint-small})";
+$media-small-only: "#{$media-screen} and (min-width: #{$breakpoint-x-small + $base-one-pixel-in-em}) and (max-width: #{$breakpoint-small})";
+$media-small-up: "#{$media-screen} and (min-width: #{$breakpoint-x-small + $base-one-pixel-in-em})";
+
 $media-medium-down: "#{$media-screen} and (max-width: #{$breakpoint-medium})";
+$media-medium-only: "#{$media-screen} and (min-width: #{$breakpoint-small + $base-one-pixel-in-em}) and (max-width: #{$breakpoint-medium})";
+$media-medium-up: "#{$media-screen} and (min-width: #{$breakpoint-small + $base-one-pixel-in-em})";
+
 $media-large-down: "#{$media-screen} and (max-width: #{$breakpoint-large})";
+$media-large-only: "#{$media-screen} and (min-width: #{$breakpoint-medium + $base-one-pixel-in-em}) and (max-width: #{$breakpoint-large})";
+$media-large-up: "#{$media-screen} and (min-width: #{$breakpoint-medium + $base-one-pixel-in-em})";
+
 $media-x-large-down: "#{$media-screen} and (max-width: #{$breakpoint-x-large})";
+$media-x-large-only: "#{$media-screen} and (min-width: #{$breakpoint-large + $base-one-pixel-in-em})";
+$media-x-large-up: "#{$media-x-large-only}";
 
 // This is a gross hack for targeting Internet Explorer 10 and 11. For
 // more information, see <https://stackoverflow.com/a/20541859>.
