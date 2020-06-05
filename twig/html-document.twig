@@ -1,0 +1,42 @@
+{#
+  Copyright (C) 2020 Damien Dart, <damiendart@pobox.com>.
+  This file is distributed under the MIT licence. For more information,
+  please refer to the accompanying "LICENCE" file.
+#}
+
+{% block preamble %}{% endblock %}
+<!DOCTYPE html>
+<html lang="{{ language | default("en") }}" prefix="og: http://ogp.me/ns#">
+<head>
+  <meta charset="utf-8">
+  {% block headCustom %}{% endblock %}
+  {% if author is defined and author is not empty %}
+    <meta content="{{ author }}" name="author">
+  {% endif %}
+  {% if authorTwitter is defined and authorTwitter is not empty %}
+    <meta content="{{ authorTwitter }}" property="twitter:creator">
+  {% endif %}
+  {% if description is defined and description is not empty %}
+    <meta content="{{ description }}" name="description">
+    <meta content="{{ description }}" property="og:description">
+  {% endif %}
+  {% if openGraphImagePath is defined and openGraphImagePath is not empty %}
+    <meta content="{{ urlBase }}{{ openGraphImagePath }}" property="og:image">
+    <meta content="summary_large_image" name="twitter:card">
+  {% endif %}
+  <meta content="website" property="og:type">
+  <meta content="{{ urlBase }}{{ slug }}" property="og:url">
+  <meta content="initial-scale=1, maximum-scale=1, width=device-width" name="viewport">
+  {% if noCrawl | default(false)  %}
+    <meta content="noindex, nofollow" name="robots">
+  {% endif %}
+  <script>{% block headJavaScript "document.documentElement.className+='javascript'" %}</script>
+  <title>{{ block("title") }}</title>
+  {% if block('openGraphTitle') is defined and block('openGraphTitle') is not empty %}
+    <meta content="{{ block("openGraphTitle") }}" property="og:title">
+  {% endif %}
+</head>
+<body{% if bodyClasses is defined %} class="{{ bodyClasses }}"{% endif %}>
+  {% block body %}{% endblock %}
+</body>
+</html>
