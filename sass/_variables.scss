@@ -10,6 +10,7 @@
 
 $base-one-em-in-pixels: 16px;
 $base-one-pixel-in-em: (1px / $base-one-em-in-pixels) * 1em;
+$base-one-pixel-in-rem: (1px / $base-one-em-in-pixels) * 1rem;
 
 $breakpoint-x-small: (320px / $base-one-em-in-pixels) * 1em;
 $breakpoint-small: (480px / $base-one-em-in-pixels) * 1em;
