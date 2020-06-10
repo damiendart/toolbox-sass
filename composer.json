@@ -1,0 +1,10 @@
+{
+  "name": "damiendart/toolbox-sass",
+  "authors": [
+    {
+      "name": "Damien Dart",
+      "email": "damiendart@pobox.com"
+    }
+  ],
+  "require": {}
+}
