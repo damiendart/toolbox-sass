@@ -7,8 +7,8 @@ This project currently includes:
 
  - an assortment of Sass functions, mixins, and variables;
  - a basic static site generator;
- - some JavaScript doohickeys; and
- - a few Twig templates. 
+ - some JavaScript and PHP doohickeys; and
+ - a few Twig templates.
 
 The project started off with just the Sass stuff (hence the name) but
 has since turned into a general dumping ground for stuff I was regularly
