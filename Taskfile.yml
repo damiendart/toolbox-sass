@@ -1,36 +1,36 @@
 ---
 version: 2
 
-output: prefixed
+output: 'prefixed'
 
 tasks:
   default:
     deps:
-      - task: ci
+      - task: 'ci'
 
   ci:
     cmds:
-      - task: dependencies
-      - task: lint
-    desc: Run all CI-related tasks
+      - task: 'dependencies'
+      - task: 'lint'
+    desc: 'Run all CI-related tasks'
 
   clean:
     cmds:
-      - rm -fr node_modules
-    desc: Delete all JavaScript dependencies
+      - 'rm -fr node_modules'
+    desc: 'Delete all JavaScript dependencies'
 
   dependencies:
     cmds:
-      - task: dependencies:javascript
-      - task: dependencies:php
-    desc: Run all dependency-installing-related tasks
+      - task: 'dependencies:javascript'
+      - task: 'dependencies:php'
+    desc: 'Run all dependency-installing-related tasks'
 
   dependencies:javascript:
     cmds:
-      - npm install
+      - 'npm install'
     env:
       CI: true
-    desc: Install JavaScript dependencies
+    desc: 'Install JavaScript dependencies'
 
   dependencies:php:
     cmds:
@@ -39,15 +39,15 @@ tasks:
 
   lint:
     cmds:
-      - task: lint:javascript
-      - task: lint:php
-      - task: lint:sass
-    desc: Run all linting-related tasks
+      - task: 'lint:javascript'
+      - task: 'lint:php'
+      - task: 'lint:sass'
+    desc: 'Run all linting-related tasks'
 
   lint:javascript:
     cmds:
-      - npx eslint --ignore-pattern '!.stylelintrc.js' .stylelintrc.js buildstatic/** javascript/**
-    desc: Lint JavaScript files with ESLint
+      - "npx eslint --ignore-pattern '!.stylelintrc.js' .stylelintrc.js buildstatic/** javascript/**"
+    desc: 'Lint JavaScript files with ESLint'
 
   lint:php:
     cmds:
@@ -57,4 +57,4 @@ tasks:
   lint:sass:
     cmds:
       - 'npx stylelint _index.scss "sass/*.scss"'
-    desc: Lint Sass files with Stylelint
+    desc: 'Lint Sass files with Stylelint'
