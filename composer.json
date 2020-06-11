@@ -8,6 +8,7 @@
   "autoload": {
     "psr-4": {"ToolboxSass\\": "php/"}
   },
+  "license": "MIT",
   "name": "damiendart/toolbox-sass",
   "require": {},
   "require-dev": {
