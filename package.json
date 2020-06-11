@@ -1,11 +1,6 @@
 {
-  "name": "toolbox-sass",
-  "version": "0.1.0",
-  "description": "A hodgepodge of web-development-related stuff.",
-  "main": "_index.scss",
   "author": "Damien Dart",
-  "license": "MIT",
-  "private": true,
+  "description": "A hodgepodge of web-development-related stuff.",
   "bin": {
     "buildstatic": "./buildstatic/buildstatic"
   },
@@ -33,5 +28,10 @@
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.20.0"
-  }
+  },
+  "license": "MIT",
+  "main": "_index.scss",
+  "name": "toolbox-sass",
+  "private": true,
+  "version": "0.1.0"
 }
