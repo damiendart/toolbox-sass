@@ -87,9 +87,15 @@ class TwigProcessor {
         'widont',
         // The following is based on
         // <http://justinhileman.info/article/a-jquery-widont-snippet/>.
-        (string) => Promise.resolve(
-          string.replace(/\s([^\s<]+)\s*$/, '&nbsp;$1'),
-        ),
+        (string) => {
+          if (string.split(' ').filter((n) => n !== '').length <= 2) {
+            return Promise.resolve(string);
+          }
+
+          return Promise.resolve(
+            string.replace(/\s([^\s<]+)\s*$/, '&nbsp;$1'),
+          );
+        },
         [],
         { is_safe: ['html'] },
       ),
