@@ -9,9 +9,11 @@
 const fse = require('fs-extra');
 const glob = require('util').promisify(require('glob'));
 const path = require('path');
+const NoOpProcessor = require('./processors/NoOpProcessor');
 const processors = [
   require('./processors/JavaScriptProcessor'),
   require('./processors/MarkdownProcessor'),
+  NoOpProcessor,
   require('./processors/SassProcessor'),
   require('./processors/SVGProcessor'),
   require('./processors/TwigProcessor'),
@@ -36,7 +38,7 @@ if (
 const configurationOptions = { contextModifier: (context) => context };
 const inputDirectory = path.resolve(process.argv[2]);
 const outputDirectory = path.resolve(process.argv[3]);
-let writtenFilesCount = 0;
+let writtenFileCount = 0;
 
 try {
   Object.assign(
@@ -57,62 +59,69 @@ try {
 }
 
 glob('**/*', { cwd: inputDirectory, nodir: true })
-  .then((files) => Promise.all(files.map((file) => {
+  .then((files) => files.map((file) => {
     const applicableProcessors = processors.filter(
       (processor) => processor.INPUT_EXTENSION === path.extname(file),
     );
+    const inputFile = path.join(inputDirectory, file);
 
-    if (applicableProcessors.length > 0) {
-      return Promise.all(
-        applicableProcessors.map((Processor) => {
-          const inputFile = path.join(inputDirectory, file);
-          const outputFile = path.join(outputDirectory, file)
-            .replace(Processor.INPUT_EXTENSION, Processor.OUTPUT_EXTENSION);
-          let processorContext = {
-            inputFile: { name: inputFile },
-            inputDirectory,
-            outputFile: { name: outputFile },
-            outputDirectory,
-          };
-
-          if (configurationOptions.contextModifier instanceof Function) {
-            processorContext = configurationOptions.contextModifier(
-              processorContext,
-            );
-          }
-
-          return fse.mkdirs(path.dirname(outputFile))
-            .then(() => fse.readFile(inputFile, 'utf8'))
-            .then((contents) => Processor.process(contents, processorContext))
-            .then((output) => fse.writeFile(outputFile, output))
-            .then(() => {
-              console.log(`[✔] Written "${outputFile}"`);
-              writtenFilesCount += 1;
-            })
-            .catch((e) => {
-              console.error(`[✘] Unable to write "${outputFile}"`);
-              console.error(`\n${e.toString()}`);
-              process.exit(1);
-            });
-        }),
-      );
+    if (applicableProcessors.length === 0) {
+      applicableProcessors.push(NoOpProcessor);
     }
 
-    const outputFile = path.join(outputDirectory, file);
+    return applicableProcessors.map((processor) => {
+      const outputFile = path.join(outputDirectory, file)
+        .replace(processor.INPUT_EXTENSION, processor.OUTPUT_EXTENSION);
 
-    return fse.copy(path.join(inputDirectory, file), outputFile)
-      .then(() => {
-        console.log(`[✔] Written "${outputFile}"`);
-        writtenFilesCount += 1;
-      })
-      .catch((e) => {
-        console.error(`[✘] Unable to write "${outputFile}"`);
-        console.error(`\n${e.toString()}`);
-        process.exit(1);
-      });
-  })))
+      return {
+        context: configurationOptions.contextModifier(
+          {
+            inputFile: { name: inputFile },
+            inputDirectory: { name: inputDirectory },
+            outputFile: { name: outputFile },
+            outputDirectory: { name: outputDirectory },
+          },
+        ),
+        processor,
+      };
+    });
+  }))
+  .then((items) => items.flat())
+  .then((items) => Promise.all(
+    items.map((item) => {
+      let action;
+
+      if (item.processor.name === 'NoOpProcessor') {
+        action = fse.copy(
+          item.context.inputFile.name,
+          item.context.outputFile.name,
+        );
+      } else {
+        action = fse.mkdirs(path.dirname(item.context.outputFile.name))
+          .then(() => fse.readFile(item.context.inputFile.name, 'utf8'))
+          .then((contents) => item.processor.process(contents, item.context))
+          .then((output) => fse.writeFile(
+            item.context.outputFile.name,
+            output,
+          ));
+      }
+
+      return action
+        .then(() => {
+          console.log(`[✔] Written "${item.context.outputFile.name}"`);
+          writtenFileCount += 1;
+        })
+        .catch((e) => {
+          console.error(
+            `[✘] Unable to write "${item.context.outputFile.name}"`,
+          );
+          console.error(`\n${e.toString()}`);
+          process.exit(1);
+        });
+    }),
+  ))
   .then(() => {
-    console.log(`\n${writtenFilesCount} file(s) written!`);
+    console.log(`\n${writtenFileCount} file(s) written!`);
   })
   .catch((e) => {
     console.error('[✘] An error has occurred!');
