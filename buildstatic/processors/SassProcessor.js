@@ -18,10 +18,10 @@ class SassProcessor {
     return '.css';
   }
 
-  static process(content, context) {
+  static process(data) {
     return postcss([autoprefixer]).process(
-      sass.renderSync({ data: content }).css.toString(),
-      { from: context.inputFilePath },
+      sass.renderSync({ data: data.content }).css.toString(),
+      { from: data.inputFilePath },
     )
       .then((postCSSOutput) => new CleanCSS().minify(postCSSOutput.css).styles);
   }

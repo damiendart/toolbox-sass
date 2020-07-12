@@ -18,10 +18,10 @@ class JavaScriptProcessor {
     return this.INPUT_EXTENSION;
   }
 
-  static process(content, context) {
+  static process(data) {
     return new Promise((resolve, reject) => {
       browserify()
-        .add(context.inputFilePath)
+        .add(data.inputFilePath)
         .transform(
           (file) => {
             const chunks = [];

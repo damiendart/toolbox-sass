@@ -35,7 +35,7 @@ if (
   process.exit(askingForHelp ? 0 : 1);
 }
 
-const configurationOptions = { contextModifier: (context) => context };
+const configurationOptions = { itemsModifier: (items) => items };
 const inputBaseDirectoryPath = path.resolve(process.argv[2]);
 const outputBaseDirectoryPath = path.resolve(process.argv[3]);
 let writtenFileCount = 0;
@@ -72,48 +72,48 @@ glob('**/*', { cwd: inputBaseDirectoryPath, nodir: true })
     return applicableProcessors.map((processor) => {
       const outputFilePath = path.join(outputBaseDirectoryPath, file)
         .replace(processor.INPUT_EXTENSION, processor.OUTPUT_EXTENSION);
+      let content = null;
+
+      if (processor.name !== 'NoOpProcessor') {
+        content = fse.readFileSync(inputFilePath).toString();
+      }
 
       return {
-        context: configurationOptions.contextModifier(
-          {
-            inputFilePath,
-            inputBaseDirectoryPath,
-            outputFilePath,
-            outputBaseDirectoryPath,
-          },
-        ),
+        data: {
+          content,
+          inputFilePath,
+          inputBaseDirectoryPath,
+          outputFilePath,
+          outputBaseDirectoryPath,
+        },
         processor,
       };
     });
   }))
-  .then((items) => items.flat())
+  .then((items) => configurationOptions.itemsModifier(items.flat()))
   .then((items) => Promise.all(
     items.map((item) => {
       let action;
 
       if (item.processor.name === 'NoOpProcessor') {
-        action = fse.copy(
-          item.context.inputFilePath,
-          item.context.outputFilePath,
-        );
+        action = fse.copy(item.data.inputFilePath, item.data.outputFilePath);
       } else {
-        action = fse.mkdirs(path.dirname(item.context.outputFilePath))
-          .then(() => fse.readFile(item.context.inputFilePath, 'utf8'))
-          .then((contents) => item.processor.process(contents, item.context))
+        action = fse.mkdirs(path.dirname(item.data.outputFilePath))
+          .then(() => item.processor.process(item.data))
           .then((output) => fse.writeFile(
-            item.context.outputFilePath,
+            item.data.outputFilePath,
             output,
           ));
       }
 
       return action
         .then(() => {
-          console.log(`[✔] Written "${item.context.outputFilePath}"`);
+          console.log(`[✔] Written "${item.data.outputFilePath}"`);
           writtenFileCount += 1;
         })
         .catch((e) => {
           console.error(
-            `[✘] Unable to write "${item.context.outputFilePath}"`,
+            `[✘] Unable to write "${item.data.outputFilePath}"`,
           );
           console.error(`\n${e.toString()}`);
           process.exit(1);

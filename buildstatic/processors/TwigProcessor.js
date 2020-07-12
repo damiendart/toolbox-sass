@@ -104,13 +104,13 @@ class TwigProcessor {
     return twingEnvironment;
   }
 
-  static process(content, context) {
+  static process(data) {
     // eslint-disable-next-line no-underscore-dangle
     return TwigProcessor
-      ._initEnvironment(context.inputBaseDirectoryPath)
+      ._initEnvironment(data.inputBaseDirectoryPath)
       .render(
-        context.inputFilePath.replace(context.inputBaseDirectoryPath, ''),
-        context,
+        data.inputFilePath.replace(data.inputBaseDirectoryPath, ''),
+        data,
       )
       .then((html) => minify(
         html,

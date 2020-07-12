@@ -15,8 +15,8 @@ class SVGProcessor {
     return this.INPUT_EXTENSION;
   }
 
-  static process(content) {
-    return new SVGO().optimize(content).then((output) => output.data);
+  static process(data) {
+    return new SVGO().optimize(data.content).then((output) => output.data);
   }
 }
 
