@@ -27,7 +27,7 @@ class MarkdownProcessor {
     if ('twigTemplate' in parsed.data) {
       const twigContext = context;
 
-      twigContext.inputFile.name = parsed.data.twigTemplate;
+      twigContext.inputFilePath = parsed.data.twigTemplate;
       twigContext.renderedMarkdown = renderedMarkdown;
       twigContext.frontmatter = parsed.data;
 

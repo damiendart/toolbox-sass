@@ -21,7 +21,7 @@ class JavaScriptProcessor {
   static process(content, context) {
     return new Promise((resolve, reject) => {
       browserify()
-        .add(context.inputFile.name)
+        .add(context.inputFilePath)
         .transform(
           (file) => {
             const chunks = [];

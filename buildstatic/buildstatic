@@ -36,50 +36,50 @@ if (
 }
 
 const configurationOptions = { contextModifier: (context) => context };
-const inputDirectory = path.resolve(process.argv[2]);
-const outputDirectory = path.resolve(process.argv[3]);
+const inputBaseDirectoryPath = path.resolve(process.argv[2]);
+const outputBaseDirectoryPath = path.resolve(process.argv[3]);
 let writtenFileCount = 0;
 
 try {
   Object.assign(
     configurationOptions,
     // eslint-disable-next-line import/no-dynamic-require
-    require(`${inputDirectory}/.buildstatic.conf`),
+    require(`${inputBaseDirectoryPath}/.buildstatic.conf`),
   );
 } catch (e) {
   if (e.code === 'MODULE_NOT_FOUND') {
     console.error('[!] No ".buildstatic.conf.js" found in input directory');
   } else {
     console.error(
-      `[✘] Unable to process "${inputDirectory}/.buildconfig.conf.js!`,
+      `[✘] Unable to process "${inputBaseDirectoryPath}/.buildconfig.conf.js!`,
     );
     console.error(`\n${e.toString()}`);
     process.exit(1);
   }
 }
 
-glob('**/*', { cwd: inputDirectory, nodir: true })
+glob('**/*', { cwd: inputBaseDirectoryPath, nodir: true })
   .then((files) => files.map((file) => {
     const applicableProcessors = processors.filter(
       (processor) => processor.INPUT_EXTENSION === path.extname(file),
     );
-    const inputFile = path.join(inputDirectory, file);
+    const inputFilePath = path.join(inputBaseDirectoryPath, file);
 
     if (applicableProcessors.length === 0) {
       applicableProcessors.push(NoOpProcessor);
     }
 
     return applicableProcessors.map((processor) => {
-      const outputFile = path.join(outputDirectory, file)
+      const outputFilePath = path.join(outputBaseDirectoryPath, file)
         .replace(processor.INPUT_EXTENSION, processor.OUTPUT_EXTENSION);
 
       return {
         context: configurationOptions.contextModifier(
           {
-            inputFile: { name: inputFile },
-            inputDirectory: { name: inputDirectory },
-            outputFile: { name: outputFile },
-            outputDirectory: { name: outputDirectory },
+            inputFilePath,
+            inputBaseDirectoryPath,
+            outputFilePath,
+            outputBaseDirectoryPath,
           },
         ),
         processor,
@@ -93,27 +93,27 @@ glob('**/*', { cwd: inputDirectory, nodir: true })
 
       if (item.processor.name === 'NoOpProcessor') {
         action = fse.copy(
-          item.context.inputFile.name,
-          item.context.outputFile.name,
+          item.context.inputFilePath,
+          item.context.outputFilePath,
         );
       } else {
-        action = fse.mkdirs(path.dirname(item.context.outputFile.name))
-          .then(() => fse.readFile(item.context.inputFile.name, 'utf8'))
+        action = fse.mkdirs(path.dirname(item.context.outputFilePath))
+          .then(() => fse.readFile(item.context.inputFilePath, 'utf8'))
           .then((contents) => item.processor.process(contents, item.context))
           .then((output) => fse.writeFile(
-            item.context.outputFile.name,
+            item.context.outputFilePath,
             output,
           ));
       }
 
       return action
         .then(() => {
-          console.log(`[✔] Written "${item.context.outputFile.name}"`);
+          console.log(`[✔] Written "${item.context.outputFilePath}"`);
           writtenFileCount += 1;
         })
         .catch((e) => {
           console.error(
-            `[✘] Unable to write "${item.context.outputFile.name}"`,
+            `[✘] Unable to write "${item.context.outputFilePath}"`,
           );
           console.error(`\n${e.toString()}`);
           process.exit(1);

@@ -21,7 +21,7 @@ class SassProcessor {
   static process(content, context) {
     return postcss([autoprefixer]).process(
       sass.renderSync({ data: content }).css.toString(),
-      { from: context.inputFile.name },
+      { from: context.inputFilePath },
     )
       .then((postCSSOutput) => new CleanCSS().minify(postCSSOutput.css).styles);
   }
