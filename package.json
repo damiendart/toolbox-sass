@@ -1,9 +1,9 @@
 {
   "author": "Damien Dart",
-  "description": "A hodgepodge of web-development-related stuff.",
   "bin": {
     "buildstatic": "./buildstatic/buildstatic"
   },
+  "description": "A hodgepodge of web-development-related stuff.",
   "dependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
