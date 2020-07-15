@@ -8,7 +8,7 @@ namespace ToolboxSass;
 class TwigHelper
 {
     /**
-     * @return string The full path to toolbox-sass' Twig directory.
+     * @return string The full path to toolbox-sass' Twig template directory.
      */
     public static function getTwigDirectory(): string
     {
