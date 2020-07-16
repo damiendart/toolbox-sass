@@ -9,6 +9,7 @@
 const fse = require('fs-extra');
 const glob = require('util').promisify(require('glob'));
 const path = require('path');
+
 const NoOpProcessor = require('./processors/NoOpProcessor');
 const processors = [
   require('./processors/JavaScriptProcessor'),
@@ -35,7 +36,7 @@ if (
   process.exit(askingForHelp ? 0 : 1);
 }
 
-const configurationOptions = { itemsModifier: (items) => items };
+const configurationOptions = { itemModifiers: [] };
 const inputBaseDirectoryPath = path.resolve(process.argv[2]);
 const outputBaseDirectoryPath = path.resolve(process.argv[3]);
 let writtenFileCount = 0;
@@ -90,7 +91,15 @@ glob('**/*', { cwd: inputBaseDirectoryPath, nodir: true })
       };
     });
   }))
-  .then((items) => configurationOptions.itemsModifier(items.flat()))
+  .then((items) => {
+    let modifiedItems = items.flat();
+
+    configurationOptions.itemModifiers.forEach((modifier) => {
+      modifiedItems = modifier(modifiedItems);
+    });
+
+    return modifiedItems;
+  })
   .then((items) => Promise.all(
     items.map((item) => {
       let action;
