@@ -36,14 +36,14 @@ if (
   process.exit(askingForHelp ? 0 : 1);
 }
 
-const configurationOptions = { itemModifiers: [] };
+const config = { globalData: {}, modifiers: [] };
 const inputBaseDirectoryPath = path.resolve(process.argv[2]);
 const outputBaseDirectoryPath = path.resolve(process.argv[3]);
 let writtenFileCount = 0;
 
 try {
   Object.assign(
-    configurationOptions,
+    config,
     // eslint-disable-next-line import/no-dynamic-require
     require(`${inputBaseDirectoryPath}/.buildstatic.conf`),
   );
@@ -94,8 +94,11 @@ glob('**/*', { cwd: inputBaseDirectoryPath, nodir: true })
   .then((items) => {
     let modifiedItems = items.flat();
 
-    configurationOptions.itemModifiers.forEach((modifier) => {
-      modifiedItems = modifier(modifiedItems);
+    config.modifiers.forEach((modifier) => {
+      [config.globalData, modifiedItems] = modifier(
+        config.globalData,
+        modifiedItems,
+      );
     });
 
     return modifiedItems;
@@ -108,7 +111,9 @@ glob('**/*', { cwd: inputBaseDirectoryPath, nodir: true })
         action = fse.copy(item.data.inputFilePath, item.data.outputFilePath);
       } else {
         action = fse.mkdirs(path.dirname(item.data.outputFilePath))
-          .then(() => item.processor.process(item.data))
+          .then(() => item.processor.process(
+            { ...config.globalData, ...item.data },
+          ))
           .then((output) => fse.writeFile(
             item.data.outputFilePath,
             output,
