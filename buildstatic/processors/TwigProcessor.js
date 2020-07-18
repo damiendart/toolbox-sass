@@ -43,7 +43,7 @@ class TwigProcessor {
           const markdown = markup.toString();
           const indentation = markdown.match(/^\s*/);
           const indentationRegex = new RegExp(
-            `^${indentation && indentation.length}` ? indentation[0] : '',
+            `^${Array.isArray(indentation) ? indentation[0] : ''}`,
           );
 
           return Promise.resolve(
