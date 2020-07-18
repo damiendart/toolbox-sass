@@ -23,7 +23,7 @@ function addSitemap(globalData, items, options = {}) {
   });
 
   if ('additionalEntries' in options) {
-    sitemapEntries.push.apply(options.additionalEntries);
+    Array.prototype.push.apply(sitemapEntries, options.additionalEntries);
   }
 
   sitemapXML += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
