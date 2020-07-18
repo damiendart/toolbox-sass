@@ -14,7 +14,7 @@ function addSlugsToItems(globalData, items) {
 
       updatedItem.data.slug = item.data.outputFilePath.replace(
         new RegExp(
-          `(${item.data.outputBaseDirectoryPath}/|(index)?.(html?|php)$)`,
+          `(${globalData.outputBaseDirectoryPath}/|(index)?.(html?|php)$)`,
           'g',
         ),
         '',

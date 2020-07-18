@@ -59,6 +59,9 @@ try {
   }
 }
 
+config.globalData.inputBaseDirectoryPath = inputBaseDirectoryPath;
+config.globalData.outputBaseDirectoryPath = outputBaseDirectoryPath;
+
 glob('**/*', { cwd: inputBaseDirectoryPath, nodir: true })
   .then((files) => files.map((file) => {
     const applicableProcessors = processors.filter(
@@ -80,13 +83,7 @@ glob('**/*', { cwd: inputBaseDirectoryPath, nodir: true })
       }
 
       return {
-        data: {
-          content,
-          inputFilePath,
-          inputBaseDirectoryPath,
-          outputFilePath,
-          outputBaseDirectoryPath,
-        },
+        data: { content, inputFilePath, outputFilePath },
         processor,
       };
     });
