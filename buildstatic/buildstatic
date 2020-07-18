@@ -52,9 +52,9 @@ try {
     console.error('[!] No ".buildstatic.conf.js" found in input directory');
   } else {
     console.error(
-      `[✘] Unable to process "${inputBaseDirectoryPath}/.buildconfig.conf.js!`,
+      `[✘] Unable to process "${inputBaseDirectoryPath}/.buildconfig.conf.js!\n`,
     );
-    console.error(`\n${e.toString()}`);
+    console.error(e);
     process.exit(1);
   }
 }
@@ -73,20 +73,17 @@ glob('**/*', { cwd: inputBaseDirectoryPath, nodir: true })
       applicableProcessors.push(NoOpProcessor);
     }
 
-    return applicableProcessors.map((processor) => {
-      const outputFilePath = path.join(outputBaseDirectoryPath, file)
-        .replace(processor.INPUT_EXTENSION, processor.OUTPUT_EXTENSION);
-      let content = null;
-
-      if (processor.name !== 'NoOpProcessor') {
-        content = fse.readFileSync(inputFilePath).toString();
-      }
-
-      return {
-        data: { content, inputFilePath, outputFilePath },
-        processor,
-      };
-    });
+    return applicableProcessors.map((processor) => ({
+      data: {
+        content: processor.name !== 'NoOpProcessor'
+          ? fse.readFileSync(inputFilePath).toString()
+          : null,
+        inputFilePath,
+        outputFilePath: path.join(outputBaseDirectoryPath, file)
+          .replace(processor.INPUT_EXTENSION, processor.OUTPUT_EXTENSION),
+      },
+      processor,
+    }));
   }))
   .then((items) => {
     let modifiedItems = items.flat();
@@ -123,10 +120,8 @@ glob('**/*', { cwd: inputBaseDirectoryPath, nodir: true })
           writtenFileCount += 1;
         })
         .catch((e) => {
-          console.error(
-            `[✘] Unable to write "${item.data.outputFilePath}"`,
-          );
-          console.error(`\n${e.toString()}`);
+          console.error(`[✘] Unable to write "${item.data.outputFilePath}"\n`);
+          console.error(e);
           process.exit(1);
         });
     }),
@@ -135,7 +130,7 @@ glob('**/*', { cwd: inputBaseDirectoryPath, nodir: true })
     console.log(`\n${writtenFileCount} file(s) written!`);
   })
   .catch((e) => {
-    console.error('[✘] An error has occurred!');
-    console.error(`\n${e.toString()}`);
+    console.error('[✘] An error has occurred!\n');
+    console.error(e);
     process.exit(1);
   });
