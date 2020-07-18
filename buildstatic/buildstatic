@@ -89,9 +89,19 @@ glob('**/*', { cwd: inputBaseDirectoryPath, nodir: true })
     let modifiedItems = items.flat();
 
     config.modifiers.forEach((modifier) => {
-      [config.globalData, modifiedItems] = modifier(
+      let modifierFunction;
+      let options = {};
+
+      if (Array.isArray(modifier)) {
+        [modifierFunction, options] = modifier;
+      } else {
+        modifierFunction = modifier;
+      }
+
+      [config.globalData, modifiedItems] = modifierFunction(
         config.globalData,
         modifiedItems,
+        options,
       );
     });
 
