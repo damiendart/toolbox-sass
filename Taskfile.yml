@@ -20,7 +20,7 @@ tasks:
 
   clean:
     cmds:
-      - 'rm -fr node_modules'
+      - 'rm -fr node_modules vendor'
     desc: 'Delete all JavaScript dependencies'
 
   dependencies:
