@@ -20,15 +20,15 @@ function updatePrettyDates() {
       );
 
       // eslint-disable-next-line no-param-reassign
-      element.innerHTML = (timeSince < 60 && `${spellOutNumber(Math.floor(timeSince))} seconds ago`)
+      element.innerHTML = (timeSince < 60 && `${spellOutNumber(Math.round(timeSince))} seconds ago`)
         || (timeSince < 120 && 'a minute ago')
-        || (timeSince < 3600 && `${spellOutNumber(Math.floor(timeSince / 60))} minutes ago`)
+        || (timeSince < 3600 && `${spellOutNumber(Math.round(timeSince / 60))} minutes ago`)
         || (timeSince < 7200 && 'an hour ago')
-        || (timeSince < 86400 && `${spellOutNumber(Math.floor(timeSince / 3600))} hours ago`)
+        || (timeSince < 86400 && `${spellOutNumber(Math.round(timeSince / 3600))} hours ago`)
         || (timeSince < 172800 && 'a day ago')
-        || (timeSince < 2592000 && `${spellOutNumber(Math.floor(timeSince / 86400))} days ago`)
+        || (timeSince < 2592000 && `${spellOutNumber(Math.round(timeSince / 86400))} days ago`)
         || (timeSince < 5184000 && 'a month ago')
-        || (timeSince < 31536000 && `${spellOutNumber(Math.floor(timeSince / 2592000))} months ago`)
+        || (timeSince < 31536000 && `${spellOutNumber(Math.round(timeSince / 2592000))} months ago`)
         || (timeSince < 63072000 && 'a year ago')
         || (`${spellOutNumber(Math.ceil(timeSince / 31536000))} years ago`);
     },
