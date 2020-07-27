@@ -30,7 +30,7 @@ function updatePrettyDates() {
         || (timeSince < 5184000 && 'a month ago')
         || (timeSince < 31536000 && `${spellOutNumber(Math.round(timeSince / 2592000))} months ago`)
         || (timeSince < 63072000 && 'a year ago')
-        || (`${spellOutNumber(Math.ceil(timeSince / 31536000))} years ago`);
+        || (`${spellOutNumber(Math.round(timeSince / 31536000))} years ago`);
     },
   );
 }
