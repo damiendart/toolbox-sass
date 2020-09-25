@@ -14,14 +14,15 @@ tasks:
 
   ci:
     cmds:
+      - task: 'clean'
       - task: 'dependencies'
       - task: 'lint'
     desc: 'Run all CI-related tasks'
 
   clean:
     cmds:
-      - 'rm -fr node_modules vendor'
-    desc: 'Delete all JavaScript dependencies'
+      - 'rm -fr composer.lock node_modules package-lock.json vendor'
+    desc: 'Delete all third-party dependencies and lock files'
 
   dependencies:
     cmds:
