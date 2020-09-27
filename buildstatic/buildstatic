@@ -20,8 +20,10 @@ const processors = [
   require('./processors/TwigProcessor'),
 ];
 
+let processHiddenFiles = false;
+
 if (
-  process.argv.length !== 4
+  process.argv.length < 4
   || process.argv.includes('--help')
   || process.argv.includes('-h')
 ) {
@@ -34,6 +36,13 @@ if (
       .trim().replace(/\n {4}/g, '\n'),
   );
   process.exit(askingForHelp ? 0 : 1);
+}
+
+if (process.argv.includes('--hidden')) {
+  processHiddenFiles = true;
+  process.argv = process.argv.filter(
+    (value) => value !== '--hidden',
+  );
 }
 
 const config = { globalData: {}, modifiers: [] };
@@ -62,7 +71,7 @@ try {
 config.globalData.inputBaseDirectoryPath = inputBaseDirectoryPath;
 config.globalData.outputBaseDirectoryPath = outputBaseDirectoryPath;
 
-glob('**/*', { cwd: inputBaseDirectoryPath, nodir: true })
+glob('**/*', { cwd: inputBaseDirectoryPath, dot: processHiddenFiles, nodir: true })
   .then((files) => files.map((file) => {
     const applicableProcessors = processors.filter(
       (processor) => processor.INPUT_EXTENSION === path.extname(file),
