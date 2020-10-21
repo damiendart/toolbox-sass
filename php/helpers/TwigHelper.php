@@ -3,7 +3,7 @@
 // This file is distributed under the MIT licence. For more information,
 // please refer to the accompanying "LICENCE" file.
 
-namespace ToolboxSass;
+namespace ToolboxSass\Helpers;
 
 class TwigHelper
 {
@@ -12,6 +12,6 @@ class TwigHelper
      */
     public static function getTwigDirectory(): string
     {
-        return dirname(__DIR__) . DIRECTORY_SEPARATOR . 'twig';
+        return dirname(__DIR__) . DIRECTORY_SEPARATOR;
     }
 }

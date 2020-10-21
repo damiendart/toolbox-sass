@@ -6,7 +6,10 @@
     }
   ],
   "autoload": {
-    "psr-4": {"ToolboxSass\\": "php/"}
+    "psr-4": {
+      "ToolboxSass\\Exceptions\\": "php/exceptions",
+      "ToolboxSass\\Helpers\\": "php/helpers"
+    }
   },
   "license": "MIT",
   "name": "damiendart/toolbox-sass",
