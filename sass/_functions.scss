@@ -17,22 +17,3 @@
 
   @return #ffffff;
 }
-
-// Returns the square root of the provided number using Newton's Method.
-// For more information, please see:
-// - <http://www.antimath.info/css/sass-sqrt-function/>,
-// - <https://en.wikipedia.org/wiki/Newton%27s_method>, and
-// - <https://css-tricks.com/snippets/sass/strip-unit-function/>.
-@function sqrt($number) {
-  $x: 1;
-
-  @if type-of($number) == "number" and not unitless($number) {
-    $number: $number / ($number * 0 + 1);
-  }
-
-  @for $i from 1 through 10 {
-    $x: $x - ($x * $x - abs($number)) / (2 * $x);
-  }
-
-  @return $x;
-}
