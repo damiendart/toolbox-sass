@@ -44,10 +44,16 @@ tasks:
 
   lint:
     cmds:
+      - task: 'lint:composer'
       - task: 'lint:javascript'
       - task: 'lint:php'
       - task: 'lint:sass'
     desc: 'Run all linting-related tasks'
+
+  lint:composer:
+    cmds:
+      - 'composer validate'
+    desc: 'Validate "composer.json" with Composer'
 
   lint:javascript:
     cmds:

@@ -11,6 +11,7 @@
       "ToolboxSass\\Helpers\\": "php/helpers"
     }
   },
+  "description": "A hodgepodge of web-development-related stuff.",
   "license": "MIT",
   "name": "damiendart/toolbox-sass",
   "require": {},
