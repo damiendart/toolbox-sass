@@ -6,39 +6,45 @@
 
 {% block preamble %}{% endblock %}
 <!DOCTYPE html>
-<html lang="{{ language | default("en") }}" prefix="og: http://ogp.me/ns#">
+<html lang="{{ language | default('en') }}" prefix="og: http://ogp.me/ns#">
 <head>
     <meta charset="utf-8">
     {% block headCustom %}{% endblock %}
-    {% if author is defined and author is not empty %}
-        <meta content="{{ author }}" name="author">
+    {% if metaAuthor %}
+        <meta content="{{ metaAuthor }}" name="author">
     {% endif %}
-    {% if authorTwitter is defined and authorTwitter is not empty %}
-        <meta content="{{ authorTwitter }}" property="twitter:creator">
+    {% if metaTwitterAuthor | default(false) %}
+        <meta content="{{ metaTwitterAuthor }}" property="twitter:creator">
     {% endif %}
-    {% if description is defined and description is not empty %}
-        <meta content="{{ description }}" name="description">
-        <meta content="{{ description }}" property="og:description">
+    {% if metaTwitterSite | default(false) %}
+        <meta content="{{ metaTwitterSite }}" property="twitter:site">
     {% endif %}
-    {% if openGraphImagePath is defined and openGraphImagePath is not empty %}
-        <meta content="{{ urlBase }}{{ openGraphImagePath }}" property="og:image">
-        <meta content="summary_large_image" name="twitter:card">
+    {% if metaCanonical %}
+        <link href="{{ metaCanonical }}" rel="canonical">
     {% endif %}
-    <meta content="website" property="og:type">
-    {% if metaUrl is defined and metaUrl is not empty %}
-        <meta content="{{ metaUrl }}" property="og:url">
+    {% if metaDescription %}
+        <meta content="{{ metaDescription }}" name="description">
+        <meta content="{{ metaDescription }}" property="og:description">
+    {% endif %}
+    {% if metaOpengraphImage %}
+        <meta content="{{ metaOpengraphImage }}" property="og:image">
+        <meta content="{{ metaOpengraphImageSize | default('summary_large_image')}}" name="twitter:card">
+    {% endif %}
+    <meta content="{{ metaOpengraphType | default('website') }}" property="og:type">
+    {% if metaOpengraphUrl %}
+        <meta content="{{ metaOpengraphUrl }}" property="og:url">
     {% endif %}
     <meta content="initial-scale=1, maximum-scale=1, width=device-width" name="viewport">
-    {% if noCrawl | default(false) %}
+    {% if metaNoCrawl | default(false) %}
         <meta content="noindex, nofollow" name="robots">
     {% endif %}
     <script>{% block headJavaScript "document.documentElement.className+='javascript'" %}</script>
-    <title>{{ block("title") }}</title>
-    {% if block('openGraphTitle') is defined and block('openGraphTitle') is not empty %}
-        <meta content="{{ block("openGraphTitle") }}" property="og:title">
+    <title>{{ metaTitle }}</title>
+    {% if metaOpengraphTitle | default(false) %}
+        <meta content="{{ metaOpengraphTitle }}" property="og:title">
     {% endif %}
 </head>
-<body{% if bodyClasses is defined %} class="{{ bodyClasses }}"{% endif %}>
+<body{% if bodyClasses | default(false) %} class="{{ bodyClasses }}"{% endif %}>
     {% block body %}{% endblock %}
 </body>
 </html>
