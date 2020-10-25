@@ -12,6 +12,6 @@ class TwigHelper
      */
     public static function getTwigDirectory(): string
     {
-        return dirname(__DIR__) . DIRECTORY_SEPARATOR;
+        return dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'twig';
     }
 }
