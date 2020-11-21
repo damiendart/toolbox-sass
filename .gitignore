@@ -4,6 +4,6 @@
 
 .php_cs.cache
 composer.lock
-node_modules/
+node_modules
 package-lock.json
-vendor/
+vendor
