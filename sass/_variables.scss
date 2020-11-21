@@ -40,9 +40,10 @@ $media-x-large-down: "#{$media-screen} and (max-width: #{$breakpoint-x-large})";
 $media-x-large-only: "#{$media-screen} and (min-width: #{$breakpoint-large + $base-one-pixel-in-em})";
 $media-x-large-up: "#{$media-x-large-only}";
 
-// This is a gross hack for targeting Internet Explorer 10 and 11. For
-// more information, see <https://stackoverflow.com/a/20541859>.
-$media-ie-10: "all and (-ms-high-contrast: none), (-ms-high-contrast: active)";
+// This is a gross hack for targeting Internet Explorer 11 (and Internet
+// Explorer 10, for what it's worth). For more information, see
+// <https://stackoverflow.com/a/20541859>.
+$media-ie-11: "all and (-ms-high-contrast: none), (-ms-high-contrast: active)";
 
 // The following system font stack is based on one used in WordPress'
 // admin interface. For more information, see
