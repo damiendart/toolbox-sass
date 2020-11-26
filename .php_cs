@@ -15,8 +15,8 @@ return Config::create()
     ])
     ->setFinder(
         Finder::create()
-            ->notPath('vendor')
-            ->in(__DIR__)
+            ->in(join(DIRECTORY_SEPARATOR, [__DIR__, 'php']))
+            ->in(join(DIRECTORY_SEPARATOR, [__DIR__, 'twig']))
             ->name('*.php')
             ->name('*.twig')
     );
