@@ -94,8 +94,17 @@ glob('**/*', { cwd: inputBaseDirectoryPath, dot: processHiddenFiles, nodir: true
       processor,
     }));
   }))
+  .then((items) => items.flat().map(
+    (item) => {
+      const preprocessedItem = item;
+
+      preprocessedItem.data = item.processor.preprocess(item.data);
+
+      return preprocessedItem;
+    },
+  ))
   .then((items) => {
-    let modifiedItems = items.flat();
+    let modifiedItems = items;
 
     config.modifiers.forEach((modifier) => {
       let modifierFunction;

@@ -17,19 +17,23 @@ class MarkdownProcessor {
     return '.html';
   }
 
-  static process(data) {
+  static preprocess(data) {
     const parsed = grayMatter(data.content, { delimiters: ['<!--', '-->'] });
+
+    return Object.assign(data, parsed.data);
+  }
+
+  static process(data) {
     const renderedMarkdown = marked(
-      parsed.content,
+      data.content,
       { headerIds: false, smartypants: true },
     );
 
-    if ('twigTemplate' in parsed.data) {
+    if ('twigTemplate' in data) {
       const twigContext = data;
 
-      twigContext.inputFilePath = parsed.data.twigTemplate;
+      twigContext.inputFilePath = data.twigTemplate;
       twigContext.renderedMarkdown = renderedMarkdown;
-      twigContext.frontmatter = parsed.data;
 
       return TwigProcessor.process(twigContext);
     }

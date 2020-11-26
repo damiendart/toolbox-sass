@@ -18,6 +18,10 @@ class SassProcessor {
     return '.css';
   }
 
+  static preprocess(data) {
+    return data;
+  }
+
   static process(data) {
     return postcss([autoprefixer]).process(
       sass.renderSync({ data: data.content }).css.toString(),

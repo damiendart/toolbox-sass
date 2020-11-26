@@ -13,6 +13,10 @@ class NoOpProcessor {
     return null;
   }
 
+  static preprocess(data) {
+    return data;
+  }
+
   static process(content) {
     return content;
   }

@@ -18,6 +18,10 @@ class JavaScriptProcessor {
     return this.INPUT_EXTENSION;
   }
 
+  static preprocess(data) {
+    return data;
+  }
+
   static process(data) {
     return new Promise((resolve, reject) => {
       browserify()

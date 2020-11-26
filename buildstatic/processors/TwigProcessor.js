@@ -104,6 +104,10 @@ class TwigProcessor {
     return twingEnvironment;
   }
 
+  static preprocess(data) {
+    return data;
+  }
+
   static process(data) {
     // eslint-disable-next-line no-underscore-dangle
     return TwigProcessor
