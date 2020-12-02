@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     {% block headCustom %}{% endblock %}
     {% if metaAuthor %}
-        <meta content="{{ metaAuthor }}" name="author">
+        <meta content="{{ metaAuthor | raw }}" name="author">
     {% endif %}
     {% if metaTwitterAuthor | default(false) %}
         <meta content="{{ metaTwitterAuthor }}" property="twitter:creator">
@@ -23,12 +23,12 @@
         <link href="{{ metaCanonical }}" rel="canonical">
     {% endif %}
     {% if metaDescription %}
-        <meta content="{{ metaDescription }}" name="description">
-        <meta content="{{ metaDescription }}" property="og:description">
+        <meta content="{{ metaDescription | raw }}" name="description">
+        <meta content="{{ metaDescription | raw }}" property="og:description">
     {% endif %}
     {% if metaOpengraphImage %}
         <meta content="{{ metaOpengraphImage }}" property="og:image">
-        <meta content="{{ metaOpengraphImageSize | default('summary_large_image')}}" name="twitter:card">
+        <meta content="{{ metaOpengraphImageSize | default('summary_large_image') }}" name="twitter:card">
     {% endif %}
     <meta content="{{ metaOpengraphType | default('website') }}" property="og:type">
     {% if metaOpengraphUrl %}
@@ -39,9 +39,9 @@
         <meta content="noindex, nofollow" name="robots">
     {% endif %}
     <script>{% block headJavaScript "document.documentElement.className+='javascript'" %}</script>
-    <title>{{ metaTitle }}</title>
+    <title>{{ metaTitle | raw }}</title>
     {% if metaOpengraphTitle | default(false) %}
-        <meta content="{{ metaOpengraphTitle }}" property="og:title">
+        <meta content="{{ metaOpengraphTitle | raw }}" property="og:title">
     {% endif %}
 </head>
 <body{% if bodyClasses | default(false) %} class="{{ bodyClasses }}"{% endif %}>
