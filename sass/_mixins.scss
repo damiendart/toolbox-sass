@@ -113,6 +113,16 @@
   text-size-adjust: none;
 }
 
+// Adds declarations to show content only to screen-reader users.
+@mixin screen-reader-only {
+  height: 1px;
+  left: -10000px;
+  overflow: hidden;
+  position: absolute;
+  top: auto;
+  width: 1px;
+}
+
 // Adds stuff to create a basic loading spinner. The following is based
 // on <https://stephanwagner.me/only-css-loading-spinner>.
 @mixin spinner($width, $colour, $border-width) {
