@@ -14,7 +14,9 @@
   "description": "A hodgepodge of web-development-related stuff.",
   "license": "MIT",
   "name": "damiendart/toolbox-sass",
-  "require": {},
+  "require": {
+    "php": ">=7.4"
+  },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.16"
   }
