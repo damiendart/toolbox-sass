@@ -116,16 +116,22 @@ class TwigProcessor {
         data.inputFilePath.replace(data.inputBaseDirectoryPath, ''),
         data,
       )
-      .then((html) => minify(
-        html,
-        {
-          collapseWhitespace: true,
-          decodeEntities: true,
-          minifyJS: true,
-          removeComments: true,
-          removeEmptyAttributes: true,
-        },
-      ));
+      .then((output) => {
+        if (data.outputFilePath.match(/(html?|php)$/)) {
+          return minify(
+            output,
+            {
+              collapseWhitespace: true,
+              decodeEntities: true,
+              minifyJS: true,
+              removeComments: true,
+              removeEmptyAttributes: true,
+            },
+          );
+        }
+
+        return output;
+      });
   }
 }
 
