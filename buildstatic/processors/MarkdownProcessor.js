@@ -6,6 +6,7 @@
 
 const grayMatter = require('gray-matter');
 const marked = require('marked');
+const { minify } = require('html-minifier');
 const TwigProcessor = require('./TwigProcessor');
 
 class MarkdownProcessor {
@@ -18,27 +19,35 @@ class MarkdownProcessor {
   }
 
   static preprocess(data) {
-    const parsed = grayMatter(data.content, { delimiters: ['<!--', '-->'] });
-
-    return Object.assign(data, parsed.data);
+    return {
+      ...Object.assign(
+        data,
+        grayMatter(data.content, { delimiters: ['<!--', '-->'] }).data,
+      ),
+      renderedMarkdown: minify(
+        marked(
+          data.content,
+          { headerIds: false, smartypants: true },
+        ),
+        {
+          collapseWhitespace: true,
+          decodeEntities: true,
+          minifyJS: true,
+          removeComments: true,
+          removeEmptyAttributes: true,
+        },
+      ),
+    };
   }
 
   static process(data) {
-    const renderedMarkdown = marked(
-      data.content,
-      { headerIds: false, smartypants: true },
-    );
-
     if ('twigTemplate' in data) {
-      const twigContext = data;
-
-      twigContext.inputFilePath = data.twigTemplate;
-      twigContext.renderedMarkdown = renderedMarkdown;
-
-      return TwigProcessor.process(twigContext);
+      return TwigProcessor.process(
+        { ...data, inputFilePath: data.twigTemplate },
+      );
     }
 
-    return Promise.resolve(renderedMarkdown);
+    return Promise.resolve(data.renderedMarkdown);
   }
 }
 
