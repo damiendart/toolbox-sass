@@ -24,8 +24,6 @@
 
 // Yet Another Clearfix Mixin.
 @mixin clearfix {
-  zoom: 1;
-
   &::after {
     clear: both;
   }
