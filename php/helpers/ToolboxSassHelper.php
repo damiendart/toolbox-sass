@@ -5,13 +5,28 @@
 
 namespace ToolboxSass\Helpers;
 
-class TwigHelper
+class ToolboxSassHelper
 {
     /**
+     * Returns the full path to toolbox-sass' Twig template directory.
+     *
      * @return string The full path to toolbox-sass' Twig template directory.
      */
     public static function getTwigDirectory(): string
     {
         return dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'twig';
+    }
+
+    /**
+     * Returns the full path to toolbox-sass' PHP views directory.
+     *
+     * @return string The full path to toolbox-sass' PHP views directory.
+     */
+    public static function getViewsDirectory(): string
+    {
+        return join(
+            DIRECTORY_SEPARATOR,
+            [dirname(dirname(__DIR__)), 'php', 'views']
+        );
     }
 }
