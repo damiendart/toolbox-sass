@@ -8,8 +8,10 @@ use Symfony\Component\Finder\Finder;
 
 return Config::create()
     ->setRules([
+        '@PhpCsFixer' => true,
         '@PSR2' => true,
         'array_syntax' => ['syntax' => 'short'],
+        'concat_space' => ['spacing' => 'one'],
         'ordered_imports' => ['sortAlgorithm' => 'alpha'],
         'no_unused_imports' => true,
     ])
