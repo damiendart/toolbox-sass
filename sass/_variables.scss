@@ -4,40 +4,51 @@
 // This file is distributed under the MIT licence. For more information,
 // please refer to the accompanying "LICENCE" file.
 
+@use "sass:map";
+@use "sass:math";
+
 // The following media-query-related variables are inspired by
 // Foundation 5. For more information, please see
 // <https://foundation.zurb.com/sites/docs/v/5.5.3/media-queries.html>.
 
 $base-one-em-in-pixels: 16px;
-$base-one-pixel-in-em: (1px / $base-one-em-in-pixels) * 1em;
-$base-one-pixel-in-rem: (1px / $base-one-em-in-pixels) * 1rem;
+$base-one-pixel-in-em: math.div(1px, $base-one-em-in-pixels) * 1em;
+$base-one-pixel-in-rem: math.div(1px, $base-one-em-in-pixels) * 1rem;
 
-$breakpoint-x-small: (320px / $base-one-em-in-pixels) * 1em;
-$breakpoint-small: (480px / $base-one-em-in-pixels) * 1em;
-$breakpoint-medium: (768px / $base-one-em-in-pixels) * 1em;
-$breakpoint-large: (1024px / $base-one-em-in-pixels) * 1em;
-$breakpoint-x-large: (1440px / $base-one-em-in-pixels) * 1em;
+$breakpoint-x-small: 320px !default;
+$breakpoint-small: 480px !default;
+$breakpoint-medium: 768px !default;
+$breakpoint-large: 1024px !default;
+$breakpoint-x-large: 1140px !default;
+
+$breakpoints-em: (
+  "x-small": math.div($breakpoint-x-small, $base-one-em-in-pixels) * 1em,
+  "small": math.div($breakpoint-small, $base-one-em-in-pixels) * 1em,
+  "medium": math.div($breakpoint-medium, $base-one-em-in-pixels) * 1em,
+  "large": math.div($breakpoint-large, $base-one-em-in-pixels) * 1em,
+  "x-large": math.div($breakpoint-x-large, $base-one-em-in-pixels) * 1em,
+);
 
 $media-screen: "only screen";
 
-$media-x-small-down: "#{$media-screen} and (max-width: #{$breakpoint-x-small})";
+$media-x-small-down: "#{$media-screen} and (max-width: #{map.get($breakpoints-em, "x-small")})";
 $media-x-small-only: "#{$media-x-small-down}";
 $media-x-small-up: "#{$media-screen}";
 
-$media-small-down: "#{$media-screen} and (max-width: #{$breakpoint-small})";
-$media-small-only: "#{$media-screen} and (min-width: #{$breakpoint-x-small + $base-one-pixel-in-em}) and (max-width: #{$breakpoint-small})";
-$media-small-up: "#{$media-screen} and (min-width: #{$breakpoint-x-small + $base-one-pixel-in-em})";
+$media-small-down: "#{$media-screen} and (max-width: #{map.get($breakpoints-em, "small")})";
+$media-small-only: "#{$media-screen} and (min-width: #{map.get($breakpoints-em, "x-small") + $base-one-pixel-in-em}) and (max-width: #{map.get($breakpoints-em, "small")})";
+$media-small-up: "#{$media-screen} and (min-width: #{map.get($breakpoints-em, "x-small") + $base-one-pixel-in-em})";
 
-$media-medium-down: "#{$media-screen} and (max-width: #{$breakpoint-medium})";
-$media-medium-only: "#{$media-screen} and (min-width: #{$breakpoint-small + $base-one-pixel-in-em}) and (max-width: #{$breakpoint-medium})";
-$media-medium-up: "#{$media-screen} and (min-width: #{$breakpoint-small + $base-one-pixel-in-em})";
+$media-medium-down: "#{$media-screen} and (max-width: #{map.get($breakpoints-em, "medium")})";
+$media-medium-only: "#{$media-screen} and (min-width: #{map.get($breakpoints-em, "small") + $base-one-pixel-in-em}) and (max-width: #{map.get($breakpoints-em, "medium")})";
+$media-medium-up: "#{$media-screen} and (min-width: #{map.get($breakpoints-em, "small") + $base-one-pixel-in-em})";
 
-$media-large-down: "#{$media-screen} and (max-width: #{$breakpoint-large})";
-$media-large-only: "#{$media-screen} and (min-width: #{$breakpoint-medium + $base-one-pixel-in-em}) and (max-width: #{$breakpoint-large})";
-$media-large-up: "#{$media-screen} and (min-width: #{$breakpoint-medium + $base-one-pixel-in-em})";
+$media-large-down: "#{$media-screen} and (max-width: #{map.get($breakpoints-em, "large")})";
+$media-large-only: "#{$media-screen} and (min-width: #{map.get($breakpoints-em, "medium") + $base-one-pixel-in-em}) and (max-width: #{map.get($breakpoints-em, "large")})";
+$media-large-up: "#{$media-screen} and (min-width: #{map.get($breakpoints-em, "medium") + $base-one-pixel-in-em})";
 
-$media-x-large-down: "#{$media-screen} and (max-width: #{$breakpoint-x-large})";
-$media-x-large-only: "#{$media-screen} and (min-width: #{$breakpoint-large + $base-one-pixel-in-em})";
+$media-x-large-down: "#{$media-screen} and (max-width: #{map.get($breakpoints-em, "x-large")})";
+$media-x-large-only: "#{$media-screen} and (min-width: #{map.get($breakpoints-em, "large") + $base-one-pixel-in-em})";
 $media-x-large-up: "#{$media-x-large-only}";
 
 // This is a gross hack for targeting Internet Explorer 11 (and Internet

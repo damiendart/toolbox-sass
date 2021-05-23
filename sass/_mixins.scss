@@ -4,23 +4,8 @@
 // This file is distributed under the MIT licence. For more information,
 // please refer to the accompanying "LICENCE" file.
 
+@use "sass:math";
 @use "variables" as *;
-
-// Spits out bits-and-pieces for the "<html>" HTML element so that
-// the media-query-related variables work as intended.
-@mixin html-base($font-size: $base-one-em-in-pixels) {
-  // TODO: Handle instances when font size specified is below 16px.
-  @if ($font-size == 16px) {
-    font-size: 87.5%;
-  }
-  @else {
-    font-size: 100%;
-  }
-
-  @media #{$media-medium-up} {
-    font-size: percentage($font-size / 16px);
-  }
-}
 
 // Yet Another Clearfix Mixin.
 @mixin clearfix {
@@ -40,58 +25,6 @@
 @mixin clickable-reset {
   -webkit-appearance: button;
   border-radius: 0;
-}
-
-// Adds stuff to create a hamburger-menu icon. The following is based on
-// <https://jonsuh.com/hamburgers/>.
-@mixin hamburger($width, $layer-height, $spacing-height) {
-  $height: $layer-height * 3 + $spacing-height * 2;
-
-  display: inline-block;
-  height: $height;
-  position: relative;
-  width: $width;
-
-  &__filling {
-    margin: $layer-height / -2 0 0 0;
-    top: 50%;
-
-    &::after {
-      bottom: ($spacing-height + $layer-height) * -1;
-      content: "";
-    }
-
-    &::before {
-      content: "";
-      top: ($spacing-height + $layer-height) * -1;
-    }
-
-    &,
-    &::after,
-    &::before {
-      background: currentColor;
-      border-radius: $layer-height;
-      display: block;
-      height: $layer-height;
-      position: absolute;
-      width: 100%;
-    }
-  }
-
-  &--active {
-    .hamburger__filling {
-      transform: rotate(-45deg);
-
-      &::after {
-        transform: translate3d(0, ($spacing-height + $layer-height) * -1, 0) rotate(-90deg);
-      }
-
-      &::before {
-        opacity: 0;
-        transform: translate3d(0, $spacing-height + $layer-height, 0) rotate(45deg);
-      }
-    }
-  }
 }
 
 // Adds declarations to improve font rendering in most browsers. This
@@ -119,30 +52,4 @@
   position: absolute;
   top: auto;
   width: 1px;
-}
-
-// Adds stuff to create a basic loading spinner. The following is based
-// on <https://stephanwagner.me/only-css-loading-spinner>.
-@mixin spinner($width, $colour, $border-width) {
-  @at-root {
-    @keyframes spinner {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-  }
-
-  animation: spinner 0.6s linear infinite;
-  border-top: $border-width solid $colour;
-  border-radius: 50%;
-  border-right: $border-width solid transparent;
-  box-sizing: border-box;
-  content: '';
-  height: $width;
-  left: 50%;
-  margin: ($width / -2) 0 0 ($width / -2);
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  width: $width;
 }
