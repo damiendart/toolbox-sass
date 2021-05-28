@@ -3,12 +3,8 @@ toolbox-sass
 
 A hodgepodge of web-development-related stuff.
 
-This project currently includes:
-
- - an assortment of Sass functions, mixins, and variables;
- - a basic static site generator;
- - some JavaScript and PHP doohickeys; and
- - a few Twig templates.
+This project currently includes an assortment of JavaScript, PHP, Sass,
+and Twig doohickeys and snippets.
 
 The project started off with just the Sass stuff (hence the name) but
 has since turned into a general dumping ground for stuff I was regularly

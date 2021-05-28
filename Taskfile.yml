@@ -57,7 +57,7 @@ tasks:
 
   lint:javascript:
     cmds:
-      - "npx eslint --ignore-pattern '!.stylelintrc.js' .stylelintrc.js buildstatic/** javascript/**"
+      - "npx eslint --ignore-pattern '!.stylelintrc.js' .stylelintrc.js javascript/**"
     desc: 'Lint JavaScript files with ESLint'
 
   lint:php:
