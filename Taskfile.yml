@@ -3,7 +3,7 @@
 # please refer to the accompanying "LICENCE" file.
 
 ---
-version: 2
+version: '3'
 
 output: 'prefixed'
 
@@ -57,7 +57,7 @@ tasks:
 
   lint:javascript:
     cmds:
-      - "npx eslint --ignore-pattern '!.stylelintrc.js' .stylelintrc.js javascript/**"
+      - "node_modules/.bin/eslint --ignore-pattern '!.stylelintrc.js' .stylelintrc.js javascript/**"
     desc: 'Lint JavaScript files with ESLint'
 
   lint:php:
@@ -67,5 +67,5 @@ tasks:
 
   lint:sass:
     cmds:
-      - 'npx stylelint _index.scss "sass/*.scss"'
+      - 'node_modules/.bin/stylelint _index.scss "sass/*.scss"'
     desc: 'Lint Sass files with Stylelint'
