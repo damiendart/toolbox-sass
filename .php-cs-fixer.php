@@ -10,7 +10,7 @@ use PhpCsFixer\Finder;
 use ToolboxSass\Helpers\PHPCSFixerHelper;
 
 return (new Config())
-    ->setRules(PHPCSFixerHelper::getHouseRules())
+    ->setRules(PHPCSFixerHelper::getHouseRules('7.4.0'))
     ->setFinder(
         Finder::create()
             ->in(__DIR__ . DIRECTORY_SEPARATOR . 'php')

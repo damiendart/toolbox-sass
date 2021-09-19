@@ -14,9 +14,11 @@ class PHPCSFixerHelper
      * Returns an array of "house" PHP CS Fixer rules that I use for
      * freelance and personal projects.
      *
+     * @param string $phpVersion A “PHP-standardised” version number
+     *
      * @return array An array of PHP CS Fixer rules
      */
-    public static function getHouseRules(): array
+    public static function getHouseRules(string $phpVersion): array
     {
         return [
             '@PhpCsFixer' => true,
@@ -28,6 +30,11 @@ class PHPCSFixerHelper
             'no_unused_imports' => true,
             'multiline_whitespace_before_semicolons' => [
                 'strategy' => 'no_multi_line',
+            ],
+            'trailing_comma_in_multiline' => [
+                'elements' => version_compare($phpVersion, '8.0.0', '>')
+                    ? ['arrays', 'arguments']
+                    : ['arrays', 'arguments', 'parameters'],
             ],
             'void_return' => true,
         ];

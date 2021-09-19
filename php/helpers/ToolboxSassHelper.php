@@ -29,7 +29,7 @@ class ToolboxSassHelper
     {
         return join(
             DIRECTORY_SEPARATOR,
-            [dirname(dirname(__DIR__)), 'php', 'views']
+            [dirname(dirname(__DIR__)), 'php', 'views'],
         );
     }
 }
