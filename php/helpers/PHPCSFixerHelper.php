@@ -32,7 +32,7 @@ class PHPCSFixerHelper
                 'strategy' => 'no_multi_line',
             ],
             'trailing_comma_in_multiline' => [
-                'elements' => version_compare($phpVersion, '8.0.0', '>')
+                'elements' => version_compare($phpVersion, '8.0.0', '<')
                     ? ['arrays', 'arguments']
                     : ['arrays', 'arguments', 'parameters'],
             ],
