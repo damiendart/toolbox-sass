@@ -56,9 +56,10 @@ $media-x-large-up: "#{$media-x-large-only}";
 // <https://stackoverflow.com/a/20541859>.
 $media-ie-11: "all and (-ms-high-contrast: none), (-ms-high-contrast: active)";
 
-// The following system font stack is based on one used in WordPress'
-// admin interface. For more information, see
+// The following system font stack is based on stacks used in Bootstrap
+// and WordPress' admin interface. For more information, see
+// <https://github.com/twbs/bootstrap> and
 // <https://make.wordpress.org/core/2016/07/07/native-fonts-in-4-6/>.
-$font-stack-system: -apple-system, BlinkMacSystemFont, "Segoe UI",
-  Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica,
-  Arial, sans-serif;
+$font-stack-system: system-ui, -apple-system, BlinkMacSystemFont,
+  "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",
+  Helvetica, Arial, "Noto Sans", "Liberation Sans", sans-serif;
