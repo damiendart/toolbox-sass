@@ -7,7 +7,6 @@
   ],
   "autoload": {
     "psr-4": {
-      "ToolboxSass\\Exceptions\\": "php/exceptions",
       "ToolboxSass\\Helpers\\": "php/helpers"
     }
   },
