@@ -6,9 +6,14 @@
     }
   ],
   "autoload": {
-    "psr-4": {
-      "ToolboxSass\\Helpers\\": "php/helpers"
-    }
+    "files": [
+      "./php/helpers/toolbox-sass.php"
+    ]
+  },
+  "autoload-dev": {
+    "files": [
+      "./php/helpers/php-cs-fixer.php"
+    ]
   },
   "description": "A hodgepodge of web-development-related stuff.",
   "license": "MIT",
