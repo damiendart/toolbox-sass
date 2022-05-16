@@ -21,12 +21,12 @@ jobs:
       - name: 'Set up Node environment'
         uses: 'actions/setup-node@v2-beta'
         with:
-          node-version: '14'
+          node-version: '16'
 
       - name: 'Set up PHP environment'
         uses: 'shivammathur/setup-php@v2'
         with:
-          php-version: '7.4'
+          php-version: '8.0'
 
       - name: 'Install Task'
         run: 'curl -sL https://taskfile.dev/install.sh | sh'
